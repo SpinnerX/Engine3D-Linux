@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Sandbox.dir/main.cpp.o -o Sandbox  /usr/lib/libglm.a /usr/local/lib/libglad.a /usr/local/lib/libEngine3D.a /usr/lib/libglfw.so.3.3 /usr/lib/libglm.a /usr/lib/libspdlog.so.1.13.0 /usr/lib/libfmt.so.10.2.0 /usr/local/lib/libglad.a 
