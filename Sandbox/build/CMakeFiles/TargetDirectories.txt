@@ -1,3 +1,0 @@
-/home/spinnerx/Desktop/Engine3D-Linux/Sandbox/build/CMakeFiles/Sandbox.dir
-/home/spinnerx/Desktop/Engine3D-Linux/Sandbox/build/CMakeFiles/edit_cache.dir
-/home/spinnerx/Desktop/Engine3D-Linux/Sandbox/build/CMakeFiles/rebuild_cache.dir
