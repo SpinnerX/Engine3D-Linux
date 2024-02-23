@@ -1,6 +1,8 @@
 set(
 	all_src
 	Engine3D/Core/Application.cpp
+	Engine3D/Core/EntryPoint.cpp
+	Engine3D/Core/EngineLogger.cpp
 )
 
 set(
@@ -8,6 +10,7 @@ set(
 	../include/Engine3D/Core/core.h
 	../include/Engine3D/Core/Application.h
 	../include/Engine3D/Core/EntryPoint.h
+	../include/Engine3D/Core/EngineLogger.h
 )
 
 find_package(glfw3 REQUIRED)
