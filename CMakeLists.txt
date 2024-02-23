@@ -30,8 +30,23 @@ add_subdirectory(src)
 # target_precompile_headers(${PROJECT_NAME} PUBLIC
 # 	"$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_INSTALL_PREFIX}/include/GameEngine/GameEnginePrecompiledHeader.h>"
 # )
+
+set(PRECOMPILED_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/Engine3D/Engine3DPrecompiledHeader.h>")
+set(INSTALLED_PRECOMPILED_PATH "${CMAKE_INSTALL_PREFIX}/include/Engine3D/Engine3DPrecompiledHeader.h>")
+
+if(EXISTS ${INSTALLED_PRECOMPILED_PATH})
+	set(PATH ${INSTALLED_PRECOMPILED_PATH})
+elseif(EXISTS ${PRECOMPILED_PATH})
+	set(PATH ${PRECOMPILED_PATH})
+endif()
+
+
+# target_precompile_headers(${PROJECT_NAME} PUBLIC
+# 	"$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/include/Engine3D/Engine3DPrecompiledHeader.h>"
+# )
+
 target_precompile_headers(${PROJECT_NAME} PUBLIC
-	"$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/include/Engine3D/Engine3DPrecompiledHeader.h>"
+	"$<$<COMPILE_LANGUAGE:CXX>:>"
 )
 
 install(
