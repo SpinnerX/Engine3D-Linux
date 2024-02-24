@@ -1,8 +1,10 @@
 set(
 	all_src
+	Engine3D/Core/core.cpp
 	Engine3D/Core/Application.cpp
 	Engine3D/Core/EntryPoint.cpp
 	Engine3D/Core/EngineLogger.cpp
+	Engine3D/platforms/Linux/LinuxWindow.cpp
 )
 
 set(
@@ -11,9 +13,17 @@ set(
 	../include/Engine3D/Core/Application.h
 	../include/Engine3D/Core/EntryPoint.h
 	../include/Engine3D/Core/EngineLogger.h
+	../include/Engine3D/Events/Event.h
+	../include/Engine3D/Events/KeyEvent.h
+	../include/Engine3D/Events/MouseEvent.h
+	../include/Engine3D/Events/ApplicationEvent.h
+	../include/Engine3D/platforms/Linux/LinuxWindow.h
 )
 
+# if(UNIX AND NOT APPLE)
 find_package(glfw3 REQUIRED)
+# endif(UNIX AND NOT APPLE)
+
 find_package(OpenGL REQUIRED)
 
 find_package(fmt REQUIRED)
