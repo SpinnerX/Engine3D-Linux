@@ -1,3 +1,5 @@
 build
 Sandbox/build
 *.o
+.cache
+Sandbox/.cache
