@@ -12,4 +12,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <Engine3D/Events/ApplicationEvent.h>
+
 #include <Engine3D/Core/EngineLogger.h>
