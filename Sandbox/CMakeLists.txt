@@ -1,7 +1,12 @@
 cmake_minimum_required (VERSION 3.15)
 
 set(PROJECT_NAME Sandbox)
+
 set(CMAKE_CXX_STANDARD 20)
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "") # works (in creating the compile_commands.json file)
 project(${PROJECT_NAME})
 
 find_package(Engine3D REQUIRED)
@@ -24,12 +29,11 @@ add_executable(${PROJECT_NAME} main.cpp)
 # Log::Log1 is the alias we made when we created an alias in the Logger CMakeLists.txt file
 target_link_libraries(
     ${PROJECT_NAME}
+	Engine3D::Engine3D
 	glfw
 	${OPENGL_gl_LIBRARY}
 	glm::glm
 	fmt::fmt
 	spdlog::spdlog
 	glad::glad
-
-	Engine3D::Engine3D
 )
