@@ -4,10 +4,7 @@
 namespace Engine3D{
 
 	Application::Application(){
-		/* _window = std::unique_ptr<Window>(Window::create()); */
 		_window = std::unique_ptr<Window>(Window::create());
-		/* _window->setEventCallback(bind_event_function(this, &Application::onWindowClose)); */
-		/* _window->setEventCallback(bind_event_function(this, &Application::onWindowClose)); */
 		_window->setEventCallback(bind_function(this, &Application::onEvent));
 		isRunning = true;
 	}
@@ -23,8 +20,8 @@ namespace Engine3D{
 
 	void Application::Run(){
 		while(isRunning){
-			/* glClearColor(1, 0, 1, 1); */
-			/* glClear(GL_COLOR_BUFFER_BIT); */
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
 
 			_window->onUpdate();
 		}
