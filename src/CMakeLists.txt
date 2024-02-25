@@ -7,6 +7,8 @@ set(
 	Engine3D/platforms/Linux/LinuxWindow.cpp
 	Engine3D/Core/Layer.cpp
 	Engine3D/Core/LayerStack.cpp
+	Engine3D/Events/InputPoll.cpp
+	Engine3D/platforms/Linux/LinuxInputPoll.cpp
 )
 
 set(
@@ -17,9 +19,13 @@ set(
 	../include/Engine3D/Core/EngineLogger.h
 	../include/Engine3D/Events/Event.h
 	../include/Engine3D/Events/KeyEvent.h
+	../include/Engine3D/Events/KeyCodes.h
 	../include/Engine3D/Events/MouseEvent.h
+	../include/Engine3D/Events/MouseButtonCodes.h
 	../include/Engine3D/Events/ApplicationEvent.h
 	../include/Engine3D/platforms/Linux/LinuxWindow.h
+	../include/Engine3D/Events/InputPoll.h
+	../include/Engine3D/platforms/Linux/LinuxInputPoll.h
 )
 
 # if(UNIX AND NOT APPLE)
@@ -31,6 +37,7 @@ find_package(OpenGL REQUIRED)
 # find_package(GLUT REQUIRED)
 
 find_package(imgui REQUIRED)
+find_package(Vulkan REQUIRED)
 
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
@@ -49,6 +56,7 @@ if(UNIX AND NOT APPLE)
 		OpenGL::GL
 		# GLEW::GLEW
 		# ${GLUT_LIBRARIES}
+		Vulkan::Vulkan
 		imgui::imgui
 		fmt::fmt
 		glm::glm

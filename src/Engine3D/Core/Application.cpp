@@ -55,6 +55,10 @@ namespace Engine3D{
 		}
 	}
 
+	void Application::close(){
+		isRunning = false;
+	}
+
 	bool Application::onWindowClose(WindowCloseEvent& e){
 		isRunning = false;
 		return true;
