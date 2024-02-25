@@ -5,6 +5,8 @@ set(
 	Engine3D/Core/EntryPoint.cpp
 	Engine3D/Core/EngineLogger.cpp
 	Engine3D/platforms/Linux/LinuxWindow.cpp
+	Engine3D/Core/Layer.cpp
+	Engine3D/Core/LayerStack.cpp
 )
 
 set(
@@ -25,6 +27,10 @@ find_package(glfw3 REQUIRED)
 # endif(UNIX AND NOT APPLE)
 
 find_package(OpenGL REQUIRED)
+# find_package(GLEW REQUIRED)
+# find_package(GLUT REQUIRED)
+
+find_package(imgui REQUIRED)
 
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
@@ -33,11 +39,17 @@ find_package(glm REQUIRED)
 
 add_library( ${PROJECT_NAME} ${all_src} ${all_headers} )
 
+# NOTE: Using {OPENGL_gl_LIBRARY}, if compiling on Apple.
+
 if(UNIX AND NOT APPLE)
 	target_link_libraries(
 		${PROJECT_NAME}
 		glfw
-		${OPENGL_gl_LIBRARY}
+		# ${OPENGL_gl_LIBRARY}
+		OpenGL::GL
+		# GLEW::GLEW
+		# ${GLUT_LIBRARIES}
+		imgui::imgui
 		fmt::fmt
 		glm::glm
 		spdlog::spdlog
