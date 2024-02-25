@@ -62,7 +62,6 @@ namespace Engine3D{
 			return outs << e.toString();
 		}
 
-	protected:
 		bool _handled = false;
 	};
 
