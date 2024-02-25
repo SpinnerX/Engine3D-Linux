@@ -20,6 +20,8 @@ namespace Engine3D{
 		inline static Application& Get() { return *_instance; }
 		inline Window& GetWindow() { return *_window; }
 
+		void close();
+
 	private:
 		bool onWindowClose(WindowCloseEvent& e);
 

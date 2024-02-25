@@ -20,6 +20,10 @@ namespace Engine3D{
         void setVSync(bool enabled) override;
 
         bool isVSync() override { return _data.vSync; }
+		
+		inline void* getNativeWindow() const override {
+			return _window;
+		}
 
     private:
         virtual void init(const WindowProps& props);

@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace RendererEngine{
+namespace Engine3D{
 	typedef enum class MouseCode : uint16_t{
 		// From glfw3.h
 		Button0                = 0,
@@ -26,15 +26,15 @@ namespace RendererEngine{
 	// }
 }
 
-#define RENDER_MOUSE_BUTTON_0      ::RendererEngine::Mouse::Button0
-#define RENDER_MOUSE_BUTTON_1      ::RendererEngine::Mouse::Button1
-#define RENDER_MOUSE_BUTTON_2      ::RendererEngine::Mouse::Button2
-#define RENDER_MOUSE_BUTTON_3      ::RendererEngine::Mouse::Button3
-#define RENDER_MOUSE_BUTTON_4      ::RendererEngine::Mouse::Button4
-#define RENDER_MOUSE_BUTTON_5      ::RendererEngine::Mouse::Button5
-#define RENDER_MOUSE_BUTTON_6      ::RendererEngine::Mouse::Button6
-#define RENDER_MOUSE_BUTTON_7      ::RendererEngine::Mouse::Button7
-#define RENDER_MOUSE_BUTTON_LAST   ::RendererEngine::Mouse::ButtonLast
-#define RENDER_MOUSE_BUTTON_LEFT   ::RendererEngine::Mouse::ButtonLeft
-#define RENDER_MOUSE_BUTTON_RIGHT  ::RendererEngine::Mouse::ButtonRight
-#define RENDER_MOUSE_BUTTON_MIDDLE ::RendererEngine::Mouse::ButtonMiddle
+#define ENGINE_MOUSE_BUTTON_0      ::Engine3D::Mouse::Button0
+#define ENGINE_MOUSE_BUTTON_1      ::Engine3D::Mouse::Button1
+#define ENGINE_MOUSE_BUTTON_2      ::Engine3D::Mouse::Button2
+#define ENGINE_MOUSE_BUTTON_3      ::Engine3D::Mouse::Button3
+#define ENGINE_MOUSE_BUTTON_4      ::Engine3D::Mouse::Button4
+#define ENGINE_MOUSE_BUTTON_5      ::Engine3D::Mouse::Button5
+#define ENGINE_MOUSE_BUTTON_6      ::Engine3D::Mouse::Button6
+#define ENGINE_MOUSE_BUTTON_7      ::Engine3D::Mouse::Button7
+#define ENGINE_MOUSE_BUTTON_LAST   ::Engine3D::Mouse::ButtonLast
+#define ENGINE_MOUSE_BUTTON_LEFT   ::Engine3D::Mouse::ButtonLeft
+#define ENGINE_MOUSE_BUTTON_RIGHT  ::Engine3D::Mouse::ButtonRight
+#define ENGINE_MOUSE_BUTTON_MIDDLE ::Engine3D::Mouse::ButtonMiddle
