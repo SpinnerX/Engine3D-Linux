@@ -1,4 +1,9 @@
 set(
+	INCLUDE_DIR
+	Engine3D	
+)
+
+set(
 	all_src
 	Engine3D/Core/core.cpp
 	Engine3D/Core/Application.cpp
@@ -13,19 +18,19 @@ set(
 
 set(
 	all_headers
-	../include/Engine3D/Core/core.h
-	../include/Engine3D/Core/Application.h
-	../include/Engine3D/Core/EntryPoint.h
-	../include/Engine3D/Core/EngineLogger.h
-	../include/Engine3D/Events/Event.h
-	../include/Engine3D/Events/KeyEvent.h
-	../include/Engine3D/Events/KeyCodes.h
-	../include/Engine3D/Events/MouseEvent.h
-	../include/Engine3D/Events/MouseButtonCodes.h
-	../include/Engine3D/Events/ApplicationEvent.h
-	../include/Engine3D/platforms/Linux/LinuxWindow.h
-	../include/Engine3D/Events/InputPoll.h
-	../include/Engine3D/platforms/Linux/LinuxInputPoll.h
+	../${INCLUDE_DIR}/Core/core.h
+	../${INCLUDE_DIR}/Core/Application.h
+	../${INCLUDE_DIR}/Core/EntryPoint.h
+	../${INCLUDE_DIR}/Core/EngineLogger.h
+	../${INCLUDE_DIR}/Events/Event.h
+	../${INCLUDE_DIR}/Events/KeyEvent.h
+	../${INCLUDE_DIR}/Events/KeyCodes.h
+	../${INCLUDE_DIR}/Events/MouseEvent.h
+	../${INCLUDE_DIR}/Events/MouseButtonCodes.h
+	../${INCLUDE_DIR}/Events/ApplicationEvent.h
+	../${INCLUDE_DIR}/platforms/Linux/LinuxWindow.h
+	../${INCLUDE_DIR}/Events/InputPoll.h
+	../${INCLUDE_DIR}/platforms/Linux/LinuxInputPoll.h
 )
 
 # if(UNIX AND NOT APPLE)
@@ -37,7 +42,7 @@ find_package(OpenGL REQUIRED)
 # find_package(GLUT REQUIRED)
 
 find_package(imgui REQUIRED)
-find_package(Vulkan REQUIRED)
+# find_package(Vulkan REQUIRED)
 
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
@@ -54,8 +59,6 @@ if(UNIX AND NOT APPLE)
 		glfw
 		# ${OPENGL_gl_LIBRARY}
 		OpenGL::GL
-		# GLEW::GLEW
-		# ${GLUT_LIBRARIES}
 		Vulkan::Vulkan
 		imgui::imgui
 		fmt::fmt
@@ -65,9 +68,21 @@ if(UNIX AND NOT APPLE)
 	)
 endif(UNIX AND NOT APPLE)
 
+if(APPLE)
+target_link_libraries(
+	${PROJECT_NAME}
+	glfw
+	imgui::imgui
+	fmt::fmt
+	glm::glm
+	spdlog::spdlog
+	glad::glad
+)
+endif(APPLE)
+
 target_include_directories(${PROJECT_NAME}
   PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../${INCLUDE_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -103,7 +118,7 @@ if (BUILD_SHARED_LIBS)
 endif()
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "src" FILES ${all_src})
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/../include" PREFIX "include" FILES ${all_headers})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/../${INCLUDE_DIR}" PREFIX "include" FILES ${all_headers})
 
 install(
 	TARGETS ${PROJECT_NAME}

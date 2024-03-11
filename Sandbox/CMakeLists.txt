@@ -15,7 +15,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(imgui REQUIRED)
-find_package(Vulkan REQUIRED)
+# find_package(Vulkan REQUIRED)
 
 find_package(fmt REQUIRED)
 find_package(spdlog REQUIRED)
@@ -39,7 +39,7 @@ target_link_libraries(
 	GLEW::GLEW
 	${GLUT_LIBRARIES}
 	imgui::imgui
-	Vulkan::Vulkan
+	# Vulkan::Vulkan
 	glm::glm
 	fmt::fmt
 	spdlog::spdlog
