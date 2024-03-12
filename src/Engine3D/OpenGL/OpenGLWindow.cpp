@@ -1,4 +1,4 @@
-#include <Engine3D/platforms/Linux/LinuxWindow.h>
+#include <Engine3D/OpenGL/OpenGLWindow.h>
 #include <Engine3D/Events/KeyEvent.h>
 #include <Engine3D/Events/MouseEvent.h>
 #include <Engine3D/Events/ApplicationEvent.h>

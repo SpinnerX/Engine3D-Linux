@@ -1,5 +1,5 @@
 #include <Engine3DPrecompiledHeader.h>
-#include <Engine3D/platforms/Linux/LinuxInputPoll.h>
+#include <Engine3D/OpenGL/OpenGLInputPoll.h>
 #include <Engine3D/Core/Application.h>
 #include <GLFW/glfw3.h>
 

@@ -9,11 +9,12 @@ set(
 	Engine3D/Core/Application.cpp
 	Engine3D/Core/EntryPoint.cpp
 	Engine3D/Core/EngineLogger.cpp
-	Engine3D/platforms/Linux/LinuxWindow.cpp
+	Engine3D/OpenGL/OpenGLWindow.cpp
 	Engine3D/Core/Layer.cpp
 	Engine3D/Core/LayerStack.cpp
 	Engine3D/Events/InputPoll.cpp
-	Engine3D/platforms/Linux/LinuxInputPoll.cpp
+	Engine3D/OpenGL/OpenGLInputPoll.cpp
+	Engine3D/interfaces/RendererAPI.cpp
 )
 
 set(
@@ -28,9 +29,11 @@ set(
 	../${INCLUDE_DIR}/Events/MouseEvent.h
 	../${INCLUDE_DIR}/Events/MouseButtonCodes.h
 	../${INCLUDE_DIR}/Events/ApplicationEvent.h
-	../${INCLUDE_DIR}/platforms/Linux/LinuxWindow.h
+	../${INCLUDE_DIR}/OpenGL/OpenGLWindow.h
 	../${INCLUDE_DIR}/Events/InputPoll.h
-	../${INCLUDE_DIR}/platforms/Linux/LinuxInputPoll.h
+	../${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.h
+	../${INCLUDE_DIR}/interfaces/Buffer.h
+	../${INCLUDE_DIR}/interfaces/RendererAPI.h
 )
 
 # if(UNIX AND NOT APPLE)
