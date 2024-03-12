@@ -1,3 +1,8 @@
+include_directories(
+	Engine3D
+	../
+)
+
 set(
 	INCLUDE_DIR
 	Engine3D	
@@ -14,7 +19,12 @@ set(
 	Engine3D/Core/LayerStack.cpp
 	Engine3D/Events/InputPoll.cpp
 	Engine3D/OpenGL/OpenGLInputPoll.cpp
+	Engine3D/interfaces/Buffer.cpp
 	Engine3D/interfaces/RendererAPI.cpp
+	Engine3D/interfaces/Shader.cpp
+
+	Engine3D/OpenGL/OpenGLBuffer.cpp
+	Engine3D/OpenGL/OpenGLShader.cpp
 )
 
 set(
@@ -34,6 +44,10 @@ set(
 	../${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.h
 	../${INCLUDE_DIR}/interfaces/Buffer.h
 	../${INCLUDE_DIR}/interfaces/RendererAPI.h
+	../${INCLUDE_DIR}/interfaces/GraphicsContext.h
+
+	../${INCLUDE_DIR}/OpenGL/OpenGLBuffer.h
+	../${INCLUDE_DIR}/OpenGL/OpenGLShader.h
 )
 
 # if(UNIX AND NOT APPLE)

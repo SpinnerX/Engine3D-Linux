@@ -5,11 +5,22 @@
 #include <Engine3D/Events/KeyEvent.h>
 #include <Engine3D/Events/InputPoll.h>
 #include <Engine3D/Events/KeyCodes.h>
-#include <array>
+#include <Engine3D/OpenGL/OpenGLBuffer.h>
+#include <Engine3D/OpenGL/OpenGLShader.h>
 
 class ExampleLayer : public Engine3D::Layer{
 public:
+	ExampleLayer(){
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+		};
+		vertexBuffers = Engine3D::VertexBuffer::create(vertices, sizeof(vertices));
+	}
+
 	void onUpdate() override {
+		
         clientLogInfo("ExampleLayer::Update");
     }
 
@@ -20,7 +31,8 @@ public:
 	}
 
 private:
-
+	Engine3D::Ref<Engine3D::VertexBuffer> vertexBuffers;
+	Engine3D::Ref<Engine3D::Shader> shader;
 };
 
 class ExampleApp : public Engine3D::Application{
