@@ -3,22 +3,20 @@
 #include <GLFW/glfw3.h>
 
 namespace Engine3D{
+    // Shader class (Specific to OpenGL)
+    // Eventually we are creating a renderer where other Renderer API's can customize and use these functions
+    // - basically be implemented per API
+    class OpenGLShader : public Shader{
+    public:
+        OpenGLShader(const std::string& filepath);
+        OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+        ~OpenGLShader();
 
+        virtual void bind() const override;
+        virtual void unbind() const override;
 
-	class OpenGLShader : public Shader{
-	public:
+        virtual const std::string& getName() const override { return _name; }
 		
-		OpenGLShader(const std::string& path);
-		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-
-		virtual ~OpenGLShader();
-
-		virtual void bind() const override;
-
-		virtual void unbind() const override;
-
-		virtual const std::string& getName() const override { return _name; }
-
 		virtual void setInt(const std::string& name, int value) override;
 		
 		virtual void setIntArray(const std::string& name, int* values, uint32_t count) override;
@@ -31,9 +29,7 @@ namespace Engine3D{
 
 		virtual void setMat4(const std::string& name, const glm::mat4& value) override;
 
-
-	private:
-		void uploadUniformInt(const std::string& name, int values);
+        void uploadUniformInt(const std::string& name, int values);
 		void uploadIntArray(const std::string& name, int* values, uint32_t count);
         void uploadUniformFloat(const std::string& name, float values);
         void uploadUniformFloat2(const std::string& name, const glm::vec2& values);
@@ -43,22 +39,20 @@ namespace Engine3D{
         void uploadUniformMat3(const std::string& name, const glm::mat3& matrix);
         void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
-	private:
-		std::string readFile(const std::string& path);
+    private:
+        std::string readFile(const std::string& filepath);
+        std::unordered_map<GLenum, std::string> preProcess(const std::string& src);
+        /* void compile(const std::unordered_map<GLenum, std::string>& map); */
+		void compileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSrcs);
 
-		std::unordered_map<GLenum, std::string> preProcess(const std::string& src);
-
-		void compileOrGetVuilkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSrc);
-		
 		void compileOrGetOpenGLBinaries();
-
+		
 		void createProgram();
 
-	private:
-		uint32_t _rendererID;
-		std::string _name;
-
-		std::string _filepath;
-	};
-
+		void reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
+    private:
+        uint32_t _rendererID; // Keeping track uniquely identifying this object
+        std::string _name;
+		std::string _filepath; // Keeping track of the filepath.
+    };
 };

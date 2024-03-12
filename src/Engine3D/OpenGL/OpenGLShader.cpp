@@ -1,42 +1,96 @@
+#include <Engine3D/Engine3DPrecompiledHeader.h>
 #include <OpenGL/OpenGLShader.h>
-#include <Engine3D/Core/EngineLogger.h>
+#include <fstream>
 #include <glm/gtc/type_ptr.hpp>
+#include <Engine3D/Core/Timer.h>
+#include <shaderc/shaderc.hpp>
+#include <Engine3D/Debug/Instrumentor.h>
 
 namespace Engine3D{
-	
-	static GLenum shaderTypeFromString(const std::string& type){
-		if(type == "vertex") return GL_VERTEX_SHADER;
-		if(type == "fragment" || type == "pixel")
-			return GL_FRAGMENT_SHADER;
-		
-		coreLogError("Unknown Shader Type!");
-		assert(false);
-		return 0;
+    // Read our shaders into the appropriate buffers
+
+    // In this constructor is how we create a shader.
+    // 1.) Using OpenGL's function called glCreateShader() to create an empty shader
+    //      - Doesn';t just create an ID, but does create unique ID's, etc
+    // 2.) generateBuffer, then generateBind is the typical order
+    // 3.) When creating a shader, we then attach it.
+    // 4.) Then once we are finished with that shader, we then dettach it
+
+    static GLenum shaderTypeFromString(const std::string& type){
+        if(type == "vertex")
+            return GL_VERTEX_SHADER;
+        if(type == "fragment" || type == "pixel")
+            return GL_FRAGMENT_SHADER;
+        
+        render_core_assert(false, "Unknown shader type!");
+        return 0;
+    }
+
+	static shaderc_shader_kind glShaderStageToShaderC(GLenum stage){
+		switch (stage) {
+			case GL_VERTEX_SHADER: return shaderc_glsl_vertex_shader;
+			case GL_FRAGMENT_SHADER: return shaderc_glsl_fragment_shader;
+		}
+		return (shaderc_shader_kind)0;
 	}
 
-	static const char* glShaderToString(GLenum stage){
+	static const char* glShaderStageToString(GLenum stage){
 		switch (stage) {
-			case GL_VERTEX_SHADER:
-				return "GL_VERTEX_SHADER";
-			case GL_FRAGMENT_SHADER:
-				return "GL_FRAGMENT_SHADER";
+			case GL_VERTEX_SHADER: return "GL_VERTEX_SHADER";
+			case GL_FRAGMENT_SHADER: return "GL_FRAGMENT_SHADER";
 		}
-
 		assert(false);
 		return nullptr;
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& filepath){
-		std::string src = readFile(filepath);
+	static const char* getCacheDirectory(){
+		// TODO: make sure assets directory is valid.
+		return "assets/cache/shader/opengl";
+	}
+
+	static void createCacheDirectoryIfNeeded(){
+		std::string cacheDir = getCacheDirectory();
+		
+		// Checks if the directory for caching exists.
+		if(!std::filesystem::exists(cacheDir))
+			std::filesystem::create_directories(cacheDir);
+	}
+
+	static const char* glShaderStageCacheOpenGLFileExtension(uint32_t stage){
+		switch (stage) {
+			case GL_VERTEX_SHADER: return ".cached_opengl.vert";
+			case GL_FRAGMENT_SHADER: return ".cached_opengl.frag";
+		}
+		assert(false);
+		return "";
+	}
+
+	static const char* glShaderStageCachedVulkanFileExtension(uint32_t stage){
+		switch (stage) {
+			case GL_VERTEX_SHADER: return ".cached_vulkan.vert";
+			case GL_FRAGMENT_SHADER: return ".cached_vulkan.frag";
+		}
+
+		assert(false);
+		return "";
+	}
+
+    OpenGLShader::OpenGLShader(const std::string& filepath) : _filepath(filepath){
+        std::string src = readFile(filepath);
         auto shaderSrc = preProcess(src);
-		/* createCacheDirectoryIfNeeded(); */
+		RENDER_PROFILE_FUNCTION();
+		createCacheDirectoryIfNeeded();
+
+		{
 
 
-		compileOrGetVuilkanBinaries(shaderSrc);
-		compileOrGetOpenGLBinaries();
-		createProgram();
+			Timer timer;
+			compileOrGetVulkanBinaries(shaderSrc);
+			compileOrGetOpenGLBinaries();
+			createProgram();
 
-		/* coreLogWarn("Shader Creation Took {0} ms", timer.elapsedMilliseconds()); */
+			coreLogWarn("Shader Creation Took {0} ms", timer.elapsedMilliseconds());
+		}
 
 
         // Examples Filepath: asets/shaders/Texture.glsl
@@ -55,24 +109,72 @@ namespace Engine3D{
         _name = filepath.substr(lastSlash, count);
 
         coreLogTrace("Filepath: {}", _name);
-	}
+    }
 
-	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc){
-		std::unordered_map<GLenum, std::string> sources;
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : _name(name){
+		RENDER_PROFILE_FUNCTION();
 
-		sources[GL_VERTEX_SHADER] = vertexSrc;
-		sources[GL_FRAGMENT_SHADER]= fragmentSrc;
+        std::unordered_map<GLenum, std::string> sources;
+        sources[GL_VERTEX_SHADER] = vertexSrc;
+        sources[GL_FRAGMENT_SHADER] = fragmentSrc;
 
-		compileOrGetVuilkanBinaries(sources);
-	}
+        compileOrGetVulkanBinaries(sources);
+		compileOrGetOpenGLBinaries();
+		createProgram();
 
-	OpenGLShader::~OpenGLShader(){
-		glDeleteProgram(_rendererID);
-	}
+    }
 
+    OpenGLShader::~OpenGLShader(){
+		RENDER_PROFILE_FUNCTION();
+        glDeleteProgram(_rendererID);
+    }
 
-	void OpenGLShader::compileOrGetVuilkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources){
-		GLint program = glCreateProgram();
+    std::string OpenGLShader::readFile(const std::string& filepath){
+		RENDER_PROFILE_FUNCTION();
+        std::ifstream ins(filepath, std::ios::in | std::ios::binary);
+        std::string result = "";
+
+        if(!ins){
+            coreLogError("File was not able to be loaded in OpenGLShader(const string&)");
+            coreLogError("Could not open filepath: {}\n", filepath);
+        }
+        else{
+            ins.seekg(0, std::ios::end);
+            result.resize(ins.tellg());
+            ins.seekg(0, std::ios::beg);
+            ins.read(&result[0], result.size());
+            ins.close();
+        }
+
+        return result;
+    }
+
+    std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::string& src){
+		RENDER_PROFILE_FUNCTION();
+        std::unordered_map<GLenum, std::string> shaderSources;
+        const char* typeToken = "#type";
+        size_t typeTokenLength = strlen(typeToken);
+        size_t pos = src.find(typeToken, 0);
+
+        while(pos != std::string::npos){
+            size_t eol = src.find_first_of("\r\n", pos);
+            render_core_assert(eol != std::string::npos, "Syntax Error!");
+
+            size_t begin = pos + typeTokenLength + 1; // being the beginning of the token
+            std::string type = src.substr(begin, eol - begin); // extracting that actual string type
+            render_core_assert(shaderTypeFromString(type), "Invalid shader type specifier");
+
+            size_t nextLinePos = src.find_first_not_of("\r\n", eol);
+            pos = src.find(typeToken, nextLinePos);
+            shaderSources[shaderTypeFromString(type)] = src.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? src.size()-1 : nextLinePos));
+        }
+
+        return shaderSources;
+    }
+
+    void OpenGLShader::compileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources){
+		RENDER_PROFILE_FUNCTION();
+        GLint program = glCreateProgram();
 
 		// Adding shaderc stuff.
 		/* shaderc::Compiler compiler; */
@@ -150,55 +252,17 @@ namespace Engine3D{
             glDetachShader(program, id);
         }
         _rendererID = program;
-	}
 
+    }
+	
 	void OpenGLShader::compileOrGetOpenGLBinaries(){}
-
+		
 	void OpenGLShader::createProgram(){}
 
+	void OpenGLShader::reflect(GLenum stage, const std::vector<uint32_t>& shaderData){}
 
-	std::string OpenGLShader::readFile(const std::string& path){
-		std::ifstream ins(path, std::ios::in | std::ios::binary);
-        std::string result = "";
-
-        if(!ins){
-            coreLogError("File was not able to be loaded in OpenGLShader(const string&)");
-            coreLogError("Could not open filepath: {}\n", path);
-        }
-        else{
-            ins.seekg(0, std::ios::end);
-            result.resize(ins.tellg());
-            ins.seekg(0, std::ios::beg);
-            ins.read(&result[0], result.size());
-            ins.close();
-        }
-
-        return result;
-	}
-
-	std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::string& src){
-		std::unordered_map<GLenum, std::string> shaderSources;
-        const char* typeToken = "#type";
-        size_t typeTokenLength = strlen(typeToken);
-        size_t pos = src.find(typeToken, 0);
-
-        while(pos != std::string::npos){
-            size_t eol = src.find_first_of("\r\n", pos);
-            render_core_assert(eol != std::string::npos, "Syntax Error!");
-
-            size_t begin = pos + typeTokenLength + 1; // being the beginning of the token
-            std::string type = src.substr(begin, eol - begin); // extracting that actual string type
-            render_core_assert(shaderTypeFromString(type), "Invalid shader type specifier");
-
-            size_t nextLinePos = src.find_first_not_of("\r\n", eol);
-            pos = src.find(typeToken, nextLinePos);
-            shaderSources[shaderTypeFromString(type)] = src.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? src.size()-1 : nextLinePos));
-        }
-
-        return shaderSources;
-	}
-
-	void OpenGLShader::bind() const {
+    void OpenGLShader::bind() const {
+		RENDER_PROFILE_FUNCTION();
         glUseProgram(_rendererID);
     }
 
@@ -208,6 +272,7 @@ namespace Engine3D{
 
 
 	void OpenGLShader::setInt(const std::string& name, int value){
+		RENDER_PROFILE_FUNCTION();
 		uploadUniformInt(name, value);
 	}
 
@@ -221,14 +286,17 @@ namespace Engine3D{
 	}
 	
 	void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value){
+		RENDER_PROFILE_FUNCTION();
 		uploadUniformFloat3(name, value);
 	}
 
 	void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value){
+		RENDER_PROFILE_FUNCTION();
 		uploadUniformFloat4(name, value);
 	}
 
 	void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value){
+		RENDER_PROFILE_FUNCTION();
 		uploadUniformMat4(name, value);
 	}
 
@@ -272,5 +340,4 @@ namespace Engine3D{
         GLint location = glGetUniformLocation(this->_rendererID, name.c_str()); // validates if this exists
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
-
 };

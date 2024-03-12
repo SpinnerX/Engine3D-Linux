@@ -3,7 +3,7 @@
 
 namespace Engine3D {
 	
-	class LinuxInputPoll : public InputPoll {
+	class OpenGLInputPoll : public InputPoll {
 	protected:
 		bool isKeyPressedImpl(Key keycode) override;
 

@@ -1,54 +1,87 @@
 #pragma once
 #include <Engine3D/Events/Event.h>
+#include <Engine3D/Events/InputPoll.h>
 
 namespace Engine3D{
-	
-	class ENGINE_API KeyEvent : public Event {
-	public:
-		inline int GetKeyCode() const{ return _keyCode; }
+    // KeyEvent Base Class
+    class ENGINE_API KeyEvent : public Event{
+    public:
+        inline virtual KeyCode GetKeyCode() const {
+            return _keyCode;
+        }
 
-		int GetCategoryFlags() const override{
-			return EventCategoryKeyboard | EventCategoryInput;
-		}
+        int GetCategoryFlags() const override{
+            return EventCategoryKeyboard | EventCategoryInput;
+        }
 
-	protected:
-		KeyEvent(int keycode) : _keyCode(keycode) {}
+    protected:
+        // Have this protected constructor
+        // Because you shouldn't be able to create a KeyEvent, essentially
+        KeyEvent(KeyCode keycode) : _keyCode(keycode) {}
 
-		int _keyCode;
-	};
+       KeyCode  _keyCode;
+    };
 
-	class ENGINE_API KeyPressedEvent : public KeyEvent {
-	public:
-		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), _repeatCount(repeatCount) {}
+    // Handling when a key event has been pressed.  (It is a type of KeyEvent)
+    // repeatCount is just a handler if the user decides to press the key for who knows how long
+    // Thinking of hhaving repeatCount.
+    class ENGINE_API KeyPressedEvent : public KeyEvent{
+    public:
+        KeyPressedEvent(KeyCode keycode, int repeatCount) : KeyEvent(keycode), _repeatCount(repeatCount) {}
 
-		inline int getRepeatCount() const { return _repeatCount; }
+        inline int GetRepeatCount() const { return _repeatCount; }
 
-		static EventType GetStaticType() { return EventType::KeyPressed; }
+        std::string toString() const override{
+            std::stringstream ss;
+            ss << fmt::format("KeyPressedEvent: {} ({} repeats)", static_cast<int32_t>(_keyCode), _repeatCount);
+            return ss.str();
+        }
 
-		virtual EventType GetEventType() const override { return GetStaticType(); }
+        // In runtime we want to see what event type this is.
+        static EventType GetStaticType() { return EventType::KeyPressed; }
 
-		virtual const char* GetName() const override { return "EventType::KeyPressed"; }
+        // We need another instance of it, so we know what the actual event type it is.
+        virtual EventType GetEventType() const override { return GetStaticType(); }
+        virtual const char* GetName() const override { return "EventType::KeyPressed"; }
 
-		std::string toString() const override{
-			return fmt::format("KeyPressedEvent: {} ({} repeats)\n", _keyCode, _repeatCount);
-		}
+    private:
+        int _repeatCount;
+    };
 
-	private:
-		int _repeatCount=0;
-	};
+    class  ENGINE_API KeyReleasedEvent : public KeyEvent{
+    public:
+        KeyReleasedEvent(KeyCode keycode) : KeyEvent(keycode){}
 
-	class ENGINE_API KeyReleasedEvent : public KeyEvent{
-	public:
-		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
+        std::string toString() const override {
+            std::stringstream ss;
+            ss << fmt::format("KeyReleasedEvent: {}", static_cast<int32_t>(_keyCode));
+            return ss.str();
+        }
 
-		std::string toString() const override{
-			return fmt::format("KeyReleasedEvent: {}\n", _keyCode);
-		}
+        // In runtime we want to see what event type this is.
+        static EventType GetStaticType() { return EventType::KeyReleased; }
 
-		static EventType GetStaticType() { return EventType::KeyReleased; }
+        // We need another instance of it, so we know what the actual event type it is.
+        virtual EventType GetEventType() const override { return GetStaticType(); }
+        virtual const char* GetName() const override { return "EventType::KeyReleased"; }
+    };
 
-		virtual EventType GetEventType() const override { return GetStaticType(); }
+    class ENGINE_API KeyTypedEvent : public KeyEvent{
+    public:
+        KeyTypedEvent(KeyCode keycode) : KeyEvent(keycode) {}
 
-		virtual const char* GetName() const override { return "EventType::KeyReleased"; }
-	};
+        std::string toString() const override{
+            std::stringstream ss;
+            ss << fmt::format("KeyTypedEvent: {}", static_cast<int32_t>(_keyCode));
+            return ss.str();
+        }
+
+        // In runtime we want to see what event type this is.
+        static EventType GetStaticType() { return EventType::KeyTyped; }
+
+        // We need another instance of it, so we know what the actual event type it is.
+        virtual EventType GetEventType() const override { return GetStaticType(); }
+        virtual const char* GetName() const override { return "EventType::KeyTyped"; }
+    };
+
 };

@@ -1,29 +1,35 @@
 #pragma once
 #include <Engine3D/Core/Window.h>
-#include <GLFW/glfw3.h>
+#include <Engine3D/interfaces/GraphicsContext.h>
+
+struct GLFWwindow;
 
 namespace Engine3D{
-
-    class OpenGLWindow : public Window{
+    // Windows OS specific Window
+    class WindowsWindow : public Window{
     public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+        WindowsWindow(const WindowProps& props);
+        virtual ~WindowsWindow();
 
+        // Should just update GLFW
+        // including swapping buffers, input events, and things like that
+        // Should be running once-per frame
         void onUpdate() override;
 
-		inline uint32_t GetWidth() const override { return _data.width; }
-
+        inline uint32_t GetWidth() const override { return _data.width; }
         inline uint32_t GetHeight() const override { return _data.height; }
 
-        void setEventCallback(const EventCallbackFn& callback) override{ _data.callback = callback; }
+        // Window attributes
+        void setEventCallback(const EventCallbackFn& callback) override {
+            _data.callback = callback;
+        }
 
         void setVSync(bool enabled) override;
+        bool isVSync() const override { return _data.vSync; }
 
-        bool isVSync() override { return _data.vSync; }
-		
-		inline void* getNativeWindow() const override {
-			return _window;
-		}
+        inline void* getNativeWindow() const override {
+            return _window;
+        }
 
     private:
         virtual void init(const WindowProps& props);
@@ -31,6 +37,7 @@ namespace Engine3D{
 
     private:
         GLFWwindow* _window;
+        Scope<GraphicsContext> _context; // Essentially our GraphicsContext
 
         // Window data
         // For containing all relative information to thhe window
@@ -43,5 +50,6 @@ namespace Engine3D{
         };
 
         WindowData _data;
+
     };
 };

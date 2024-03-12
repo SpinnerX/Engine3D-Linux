@@ -1,12 +1,12 @@
 #pragma once
-#include <cstdint>
+#include <type_traits>
 #include <memory>
 
 // Essentially to support Windows/Mac/Linux systems
 
 // if we are on the Windows OS (since windows uses dll files)
-#ifdef ENGING_PLATFORM_WINDOWS
-    #ifdef ENGINE_BUILD_DLL
+#ifdef RENDER_PLATFORM_WINDOWS
+    #ifdef RENDER_BUILD_DLL
         #define ENGINE_API __declspec(dllexport)
     #else
         #define ENGINE_API __declspec(dllimport)
@@ -15,8 +15,11 @@
     #define ENGINE_API __attribute__((visibility("default")))
 #endif
 
-#ifdef ENGINE_ENABLE_ASSERTS
-	template<typename... T>
+
+// What this does is checks a specific condition
+// Then it logs the message if it fails then calls __debug break (kind of like setting a breakpoint)
+#ifdef RENDER_ENABLE_ASSERTS
+    template<typename... T>
     void render_assert(bool x, T&&... args){
         if(!(x)){
             clientLogError("Assertion Failed: {}", std::forward(args)...);
@@ -26,12 +29,21 @@
 
     template<typename... T>
     void render_core_assert(bool x, T&&... args){
+#if __WIN32__
         if(!(x)){
             coreLogError("Assertion Failed: {}", std::forward(args)...);
             __debugbreak();
         }
+#endif
+		if(__builtin_expect(!(x), 0){
+			coreLogError("Assertion Failed: {}", std::forward(args)...);
+			__assert_rtn(__func__, __ASSERT_FILE_NAME, __LINE__, x)
+			return;
+		}
     }
 #else
+    // #define RENDER_ASSERT(x, ...)
+    // #define RENDER_CORE_ASSERT(x, ...)
     template<typename... T>
     void render_assert(bool x, T&&... args){}
 
@@ -39,55 +51,50 @@
     void render_core_assert(bool x, T&&... args){}
 #endif
 
-// @note Bitfields for multiple categories
-constexpr uint64_t bit(uint64_t x){
-	return (1 << x);
+template<typename t1, typename t2>
+static bool is_same(){
+    return std::is_same<t1, t2>();
 }
 
-/*
- * @function bind_function
- * @note Template function allowing for creating functions objects that have a binding argument to a callable object
- * @note In this case the bindable argument is the instance pointer to the object we are calling the function to.
- *
- * @param instance 
- * @note Passing the instance for retrieving the callable function from that instance.
- *
- * @param function
- * @note when you pass a callable member function of the given instance that your passing to.
- *
- * @TODO Probably might want to have way of checking if the instance we are calling has a function that exists.
- *
- *
-*/
-
-static auto bind_function(auto* instance, auto function){
-	return [instance, function](auto&& arg1){
-		return (instance->*function)(std::forward<decltype(arg1)>(arg1));
-	};
+// Using a bitfield to go into multiple categories
+// Hence, why we are using a bitfield.
+constexpr uint64_t bit(uint64_t x){
+    return (1 << x);
 }
 
 namespace Engine3D{
-	/*
-	 * @function CreateScope<T>
-	 * @param T takes any type we want to be a std::unique_ptr
-	 * @note Creating std::unique_ptr, the type we pass will only live lifetime of its declaration.
-	 * */
-	template<typename T>
-	using Scope = std::unique_ptr<T>;
+    static auto bind_function(auto* instance, auto member_bound_function){
+        return [instance, member_bound_function](auto&& arg1){
+            return (instance->*member_bound_function)(std::forward<decltype(arg1)>(arg1));
+        };
+    }
 
+    /**
+     * @brief 
+     * 
+     * @note Scope - because std::unique_ptr means that the type we pass will only live in the lifetime of its declaration
+     * @tparam T (template) - takes a typename as template arg
+	 *
+	 * NOTE: Using Scope<T> because of potential memory leakages in the codebase
+     */
+    template<typename T>
+    using Scope = std::unique_ptr<T>;
+	
 	template<typename T, typename... Args>
 	constexpr Scope<T> CreateScope(Args&&... args){
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
 
-	/*
-	 * @function CreateRef<T>
-	 * @note type passed in to allow the object to live both inside other areas the objects being used. (lifetime)
-	 *
-	*/
+    /**
+     * @brief 
+     * 
+     * @note Ref - is shared ptr that allows an object to live both inside and other areas the objects is used  (in terms of lifetime)
+     * 
+     * @tparam T 
+     */
 
-	template<typename T>
-	using Ref = std::shared_ptr<T>;
+    template<typename T>
+    using Ref = std::shared_ptr<T>;
 
 	template<typename T, typename... Args>
 	constexpr Ref<T> CreateRef(Args&&... args){

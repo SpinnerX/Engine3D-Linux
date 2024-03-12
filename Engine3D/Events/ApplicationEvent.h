@@ -3,7 +3,8 @@
 #include <sstream>
 
 namespace Engine3D{
-
+    // Basically we assign to which event which
+    //  Handling events for resizing the window.
     class ENGINE_API WindowResizeEvent : public Event{
     public:
         WindowResizeEvent(unsigned int w, unsigned int h) : _width(w), _height(h) {}
@@ -38,6 +39,8 @@ namespace Engine3D{
         unsigned int _height;
     };
 
+    // Handling the Window closing event
+    // Does not need much data at all.
     class ENGINE_API WindowCloseEvent : public Event{
     public:
         WindowCloseEvent() {}
@@ -53,6 +56,7 @@ namespace Engine3D{
             return EventCategoryApplication;
         }
     };
+
 
     // Handling the application local events here.
     // Idea is that thhese are here to implement, in case they are actually needed
@@ -102,4 +106,5 @@ namespace Engine3D{
             return EventCategoryApplication;
         }
     };
+
 };

@@ -1,12 +1,12 @@
-#include <Engine3DPrecompiledHeader.h>
+#include <Engine3D/Engine3DPrecompiledHeader.h>
 #include <Engine3D/OpenGL/OpenGLInputPoll.h>
 #include <Engine3D/Core/Application.h>
 #include <GLFW/glfw3.h>
 
 namespace Engine3D{
-	InputPoll* InputPoll::_instance = new LinuxInputPoll();
+	InputPoll* InputPoll::_instance = new OpenGLInputPoll();
 
-	bool LinuxInputPoll::isKeyPressedImpl(Key keycode){
+	bool OpenGLInputPoll::isKeyPressedImpl(Key keycode){
 		auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().getNativeWindow());
 
 		auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
@@ -14,7 +14,7 @@ namespace Engine3D{
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool LinuxInputPoll::isMouseButtonPressedImpl(Mouse button){
+	bool OpenGLInputPoll::isMouseButtonPressedImpl(Mouse button){
 		auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().getNativeWindow());
 
 		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
@@ -22,17 +22,17 @@ namespace Engine3D{
 		return state == GLFW_PRESS;
 	}
 
-	float LinuxInputPoll::getMouseXImpl(){
+	float OpenGLInputPoll::getMouseXImpl(){
 		auto[x, y] = getMousePositionImpl();
 		return x;
 	}
 
-	float LinuxInputPoll::getMouseYImpl(){
+	float OpenGLInputPoll::getMouseYImpl(){
 		auto[x, y] = getMousePositionImpl();
 		return y;
 	}
 
-	MousePosition LinuxInputPoll::getMousePositionImpl(){
+	MousePosition OpenGLInputPoll::getMousePositionImpl(){
 		auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().getNativeWindow());
 
 		double xpos, ypos;

@@ -2,54 +2,54 @@
 #include <Engine3D/interfaces/Buffer.h>
 
 namespace Engine3D{
-	
-	/*
-	 *
-	 * @class OpenGLVertexBuffer
-	 *
-	 * API Usage
-	 * @note These are different API usage that can be made to vertex's (both usage apply to VertexBuffer and IndexBuffer...)
-	 * 1.) OpenGLVertexBuffer vertex = {0.0, 0.f, 0.0f}
-	 * 1.1 OpenGLVertexBuffer vertex = VertexBuffer({0.0f, 0.0f, 0.0f});
-	 * 2.) OpenGLVertexBuffer* vertex = VertexBuffer::Create(data, size);
-	 *
-	 *
-	 * */
-	class OpenGLVertexBuffer : public VertexBuffer{
-	public:
-		// OpenGLVertexBuffer(const std::initializer_list<float>& vertices);
-		OpenGLVertexBuffer(float* vertices, uint32_t size);
+    // VertexBuffer class for OpenGL specific
+    class OpenGLVertexBuffer : public VertexBuffer{
+    public:
+        OpenGLVertexBuffer(float* vertices, uint32_t size);
 		OpenGLVertexBuffer(uint32_t size);
+        virtual ~OpenGLVertexBuffer();
 
-		virtual ~OpenGLVertexBuffer();
-
-		virtual void bind() const override;
-
-		virtual void unbind() const override;
-
+        virtual void bind() const override;
+        virtual void unbind() const override;
+		
 		virtual void setData(const void* data, uint32_t size) override;
 
+        virtual void setLayout(const BufferLayout& layout) override {
+            _layout = layout;
+        }
 
-	private:
-		uint32_t _rendererID; // @note the ID of where we are storing this buffer in OpenGL, since it is required by OpenGL.
-		BufferLayout _layout;
-	};
+        virtual const BufferLayout& getLayout() const override {
+            return _layout;
+        }
+
+    private:
+        uint32_t _rendererID; // Should be stored in the actual implementation and not the actual vertex buffer
+        BufferLayout _layout;
+    };
 
 
-	class OpenGLIndexBuffer : public IndexBuffer{
-	public:
-		OpenGLIndexBuffer(const std::initializer_list<float>& indices);
-		OpenGLIndexBuffer(uint32_t* indices, uint32_t size);
+    // IndexBuffer class for OpenGL specific
+    // Creating index buffer
+    // element buffer and index buffers are the same thing people referred to them as element buffer
+    // - Buffer of indices of index into this buffer
+    // - tell what order of where to draw these vertices.
+    // - Kind of like into an index into an array.
+    class OpenGLIndexBuffer : public IndexBuffer{
+    public:
+        OpenGLIndexBuffer(uint32_t* indices, uint32_t size);
+        virtual ~OpenGLIndexBuffer();
 
-		virtual void bind() const override;
+        virtual void bind() const override;
+        virtual void unbind() const override;
 
-		virtual void unbind() const override;
-		
-		// @return how many indices are in the index buffer.
-		virtual uint32_t getCount() const override { return _count; }
+        // This will tell us how many indices are in this index buffer.
+        // To differentiate getCount() means in elements and NOT in bytes.
+        // Meaning multiple by the size
+        // If the size is in bytes then 
+        virtual uint32_t getCount() const override { return _count; }
 
-	private:
-		uint32_t _rendererID;
-		uint32_t _count;
-	};
+    private:
+        uint32_t _rendererID; // Should be stored in the actual implementation and not the actual vertex buffer
+        uint32_t _count;
+    };
 };

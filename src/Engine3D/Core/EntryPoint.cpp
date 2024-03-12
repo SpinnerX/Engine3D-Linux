@@ -1,18 +1,27 @@
 #include <Engine3D/Core/EntryPoint.h>
 #include <Engine3D/Core/Application.h>
-#include <Engine3D/Core/EngineLogger.h>
+// if we are on the Windows OS (since windows uses dll files)
 
+// We move this entry point hhere
+// How this is able to happen is because with __attribute__((visibility("default")))
+// that allows us to create different entry points when creating game engines, and stuff
 
 #ifdef ENGINE_PLATFORM_WINDOWS
-#error "Engine3D does not suport windows!"
+  extern Engine3D::Application* Engine3D::CreateApplication();
+
+  int main(int argc, char** argv){
+
+      auto app = Engine3D::CreateApplication();
+      app->Run();
+      delete app;
+  }
 #else
+  extern Engine3D::Application* Engine3D::CreateApplication(Engine3D::ApplicationCommandLineArgs args);
 
-extern Engine3D::Application* Engine3D::CreateApplication();
-
- int main(int argc, char** argv){
-	Engine3D::EngineLogger::Init();
-	auto app = Engine3D::CreateApplication();
-	app->Run();
-	delete app;
- }
+  int main(int argc, char** argv){
+    Engine3D::EngineLogger::Init(); 
+    auto app = Engine3D::CreateApplication({argc, argv});
+    app->Run();
+    delete app;
+}
 #endif
