@@ -1,54 +1,12 @@
 include_directories(
-	Engine3D
+	Engine3DLinux
 	../
 )
 
 set(
 	INCLUDE_DIR
-	Engine3D	
+	Engine3DLinux
 )
-
-# set(
-# 	all_src
-# 	Engine3D/Core/core.cpp
-# 	Engine3D/Core/Application.cpp
-# 	Engine3D/Core/EntryPoint.cpp
-# 	Engine3D/Core/EngineLogger.cpp
-# 	Engine3D/OpenGL/OpenGLWindow.cpp
-# 	Engine3D/Core/Layer.cpp
-# 	Engine3D/Core/LayerStack.cpp
-# 	Engine3D/Events/InputPoll.cpp
-# 	Engine3D/OpenGL/OpenGLInputPoll.cpp
-# 	Engine3D/interfaces/Buffer.cpp
-# 	Engine3D/interfaces/RendererAPI.cpp
-# 	Engine3D/interfaces/Shader.cpp
-
-# 	Engine3D/OpenGL/OpenGLBuffer.cpp
-# 	Engine3D/OpenGL/OpenGLShader.cpp
-# )
-
-# set(
-# 	all_headers
-# 	../${INCLUDE_DIR}/Core/core.h
-# 	../${INCLUDE_DIR}/Core/Application.h
-# 	../${INCLUDE_DIR}/Core/EntryPoint.h
-# 	../${INCLUDE_DIR}/Core/EngineLogger.h
-# 	../${INCLUDE_DIR}/Events/Event.h
-# 	../${INCLUDE_DIR}/Events/KeyEvent.h
-# 	../${INCLUDE_DIR}/Events/KeyCodes.h
-# 	../${INCLUDE_DIR}/Events/MouseEvent.h
-# 	../${INCLUDE_DIR}/Events/MouseButtonCodes.h
-# 	../${INCLUDE_DIR}/Events/ApplicationEvent.h
-# 	../${INCLUDE_DIR}/OpenGL/OpenGLWindow.h
-# 	../${INCLUDE_DIR}/Events/InputPoll.h
-# 	../${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.h
-# 	../${INCLUDE_DIR}/interfaces/Buffer.h
-# 	../${INCLUDE_DIR}/interfaces/RendererAPI.h
-# 	../${INCLUDE_DIR}/interfaces/GraphicsContext.h
-
-# 	../${INCLUDE_DIR}/OpenGL/OpenGLBuffer.h
-# 	../${INCLUDE_DIR}/OpenGL/OpenGLShader.h
-# )
 
 set(
   all_src
@@ -99,38 +57,6 @@ set(
   Engine3D/OpenGL/OpenGLUniformBuffer.cpp
 )
 
-# For Mac, linking AppKit only and only needing nfd_cocoa.m
-if(APPLE)
-  # For setting the filter list, macOS introduced allowedContentTypes in version 11.0 and deprecated allowedFileTypes in 12.0.
-  # By default (set to ON), NFDe will use allowedContentTypes when targeting macOS >= 11.0.
-  # Set this option to OFF to always use allowedFileTypes regardless of the target macOS version.
-  # This is mainly needed for applications that are built on macOS >= 11.0 but should be able to run on lower versions
-  # and should not be used otherwise.
-  option(NFD_USE_ALLOWEDCONTENTTYPES_IF_AVAILABLE "Use allowedContentTypes for filter lists on macOS >= 11.0" ON)
-
-  find_library(APPKIT_LIBRARY AppKit)
-  if(NFD_USE_ALLOWEDCONTENTTYPES_IF_AVAILABLE)
-    include(CheckCXXSourceCompiles)
-    check_cxx_source_compiles(
-      "
-      #include <Availability.h>
-      #if !defined(__MAC_OS_X_VERSION_MIN_REQUIRED) || !defined(__MAC_11_0) || __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_11_0
-      static_assert(false);
-      #endif
-      int main() { return 0; }
-      "
-      NFD_USE_ALLOWEDCONTENTTYPES
-    )
-    if(NFD_USE_ALLOWEDCONTENTTYPES)
-      find_library(UNIFORMTYPEIDENTIFIERS_LIBRARY UniformTypeIdentifiers)
-      if(NOT UNIFORMTYPEIDENTIFIERS_LIBRARY)
-        message(FATAL_ERROR "UniformTypeIdentifiers framework is not available even though we are targeting macOS >= 11.0")
-      endif()
-    endif()
-  endif()
-  list(APPEND all_src Engine3D/platforms/Mac/nfd_cocoa.m)
-endif()
-
 set(
   all_headers
   ../${INCLUDE_DIR}/Core/Application.h
@@ -171,9 +97,6 @@ set(
   ../${INCLUDE_DIR}/Events/MouseEvent.h
   ../${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.h
   ../${INCLUDE_DIR}/image/stb_image.h
-
-  ../${INCLUDE_DIR}/platforms/Mac/nfd.h
-  ../${INCLUDE_DIR}/platforms/Mac/nfd.hpp
 )
 
 # if(UNIX AND NOT APPLE)
@@ -276,7 +199,7 @@ install(
 
 install(
 	EXPORT ${PROJECT_NAME}Config
-	NAMESPACE Engine3D::
+	namespace Engine3DLinux::
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 
