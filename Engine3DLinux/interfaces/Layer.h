@@ -4,7 +4,7 @@
 #include <Engine3DLinux/Core/Timestep.h>
 #include <Engine3DLinux/Core/EngineLogger.h>
 #include <Engine3DLinux/Events/ApplicationEvent.h>
-#include <Engine3DLinux/Debug/Instrumentor.h>
+// #include <Engine3DLinux/Debug/Instrumentor.h>
 
 namespace Engine3DLinux{
 

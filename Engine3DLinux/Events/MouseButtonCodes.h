@@ -26,15 +26,15 @@ namespace Engine3DLinux{
 	// }
 }
 
-#define ENGINE_MOUSE_BUTTON_0      ::Engine3D::Mouse::Button0
-#define ENGINE_MOUSE_BUTTON_1      ::Engine3D::Mouse::Button1
-#define ENGINE_MOUSE_BUTTON_2      ::Engine3D::Mouse::Button2
-#define ENGINE_MOUSE_BUTTON_3      ::Engine3D::Mouse::Button3
-#define ENGINE_MOUSE_BUTTON_4      ::Engine3D::Mouse::Button4
-#define ENGINE_MOUSE_BUTTON_5      ::Engine3D::Mouse::Button5
-#define ENGINE_MOUSE_BUTTON_6      ::Engine3D::Mouse::Button6
-#define ENGINE_MOUSE_BUTTON_7      ::Engine3D::Mouse::Button7
-#define ENGINE_MOUSE_BUTTON_LAST   ::Engine3D::Mouse::ButtonLast
-#define ENGINE_MOUSE_BUTTON_LEFT   ::Engine3D::Mouse::ButtonLeft
-#define ENGINE_MOUSE_BUTTON_RIGHT  ::Engine3D::Mouse::ButtonRight
-#define ENGINE_MOUSE_BUTTON_MIDDLE ::Engine3D::Mouse::ButtonMiddle
+#define ENGINE_MOUSE_BUTTON_0      ::Engine3DLinux::Mouse::Button0
+#define ENGINE_MOUSE_BUTTON_1      ::Engine3DLinux::Mouse::Button1
+#define ENGINE_MOUSE_BUTTON_2      ::Engine3DLinux::Mouse::Button2
+#define ENGINE_MOUSE_BUTTON_3      ::Engine3DLinux::Mouse::Button3
+#define ENGINE_MOUSE_BUTTON_4      ::Engine3DLinux::Mouse::Button4
+#define ENGINE_MOUSE_BUTTON_5      ::Engine3DLinux::Mouse::Button5
+#define ENGINE_MOUSE_BUTTON_6      ::Engine3DLinux::Mouse::Button6
+#define ENGINE_MOUSE_BUTTON_7      ::Engine3DLinux::Mouse::Button7
+#define ENGINE_MOUSE_BUTTON_LAST   ::Engine3DLinux::Mouse::ButtonLast
+#define ENGINE_MOUSE_BUTTON_LEFT   ::Engine3DLinux::Mouse::ButtonLeft
+#define ENGINE_MOUSE_BUTTON_RIGHT  ::Engine3DLinux::Mouse::ButtonRight
+#define ENGINE_MOUSE_BUTTON_MIDDLE ::Engine3DLinux::Mouse::ButtonMiddle

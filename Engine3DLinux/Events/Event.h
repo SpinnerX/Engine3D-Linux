@@ -98,11 +98,11 @@ namespace Engine3DLinux{
 
 namespace fmt{
     template<>
-    struct formatter<Engine3D::Event> {
+    struct formatter<Engine3DLinux::Event> {
         template<typename ParseContext>
         constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
 
-        auto format(const Engine3D::Event& p, format_context& ctx) const -> format_context::iterator {
+        auto format(const Engine3DLinux::Event& p, format_context& ctx) const -> format_context::iterator {
             // ctx.out() is an output iterator to write to.
             std::stringstream stream;
             stream << p;

@@ -7,20 +7,20 @@
 // that allows us to create different entry points when creating game engines, and stuff
 
 #ifdef ENGINE_PLATFORM_WINDOWS
-  extern Engine3D::Application* Engine3D::CreateApplication();
+  extern Engine3DLinux::Application* Engine3D::CreateApplication();
 
   int main(int argc, char** argv){
 
-      auto app = Engine3D::CreateApplication();
+      auto app = Engine3DLinux::CreateApplication();
       app->Run();
       delete app;
   }
 #else
-  extern Engine3D::Application* Engine3D::CreateApplication(Engine3D::ApplicationCommandLineArgs args);
+  extern Engine3DLinux::Application* Engine3DLinux::CreateApplication(Engine3DLinux::ApplicationCommandLineArgs args);
 
   int main(int argc, char** argv){
-    Engine3D::EngineLogger::Init(); 
-    auto app = Engine3D::CreateApplication({argc, argv});
+    Engine3DLinux::EngineLogger::Init(); 
+    auto app = Engine3DLinux::CreateApplication({argc, argv});
     app->Run();
     delete app;
 }

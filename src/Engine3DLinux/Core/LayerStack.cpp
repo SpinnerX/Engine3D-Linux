@@ -1,4 +1,4 @@
-#include <Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>
+
 #include <Engine3DLinux/Core/LayerStack.h>
 
 namespace Engine3DLinux{

@@ -19,12 +19,13 @@
 #ifndef __gl__h
 #include <glad/glad.h>
 #endif
-#include <GLFW/glfw3.h>
-#include <Engine3DLinux/Events/ApplicationEvent.h>
 
-#include <Engine3DLinux/Core/EngineLogger.h>
-#include <Engine3DLinux/Renderer/OrthographicCameraController.h>
-#include <Engine3DLinux/Debug/Instrumentor.h>
+#include <GLFW/glfw3.h>
+// #include <Engine3D/Events/ApplicationEvent.h>
+
+// #include <Engine3DLinux/Core/EngineLogger.h>
+// #include <Engine3DLinux/Renderer2D/OrthographicCameraController.h>
+// #include <Engine3DLinux/Debug/Instrumentor.h>
 
 #include <fmt/ostream.h>
 #if RENDER_PLATFORM_WINDOWS

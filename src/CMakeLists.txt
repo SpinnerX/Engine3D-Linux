@@ -11,50 +11,19 @@ set(
 set(
   all_src
 
+  ${INCLUDE_DIR}/Core/EntryPoint.cpp
+  ${INCLUDE_DIR}/Core/Application.cpp
+  ${INCLUDE_DIR}/Core/EngineLogger.cpp
+  ${INCLUDE_DIR}/Events/InputPoll.cpp
+  ${INCLUDE_DIR}/interfaces/Layer.cpp
+  ${INCLUDE_DIR}/Core/LayerStack.cpp
 
-  Engine3D/Core/EntryPoint.cpp
-  Engine3D/Core/Application.cpp
-  Engine3D/Core/EngineLogger.cpp
-  Engine3D/Events/InputPoll.cpp
-  Engine3D/Core/Layer.cpp
-  Engine3D/Core/LayerStack.cpp
+  ${INCLUDE_DIR}/ImGui/ImGuiLayer.cpp
 
-  Engine3D/ImGui/ImGuiLayer.cpp
+  ${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.cpp
+  ${INCLUDE_DIR}/OpenGL/OpenGLWindow.cpp
 
-  Engine3D/OpenGL/OpenGLContext.cpp
-  Engine3D/interfaces/Shader.cpp
-  Engine3D/interfaces/Buffer.cpp
-  Engine3D/OpenGL/OpenGLBuffer.cpp
-  Engine3D/Renderer/Renderer.cpp
-  Engine3D/interfaces/VertexArray.cpp
-  Engine3D/OpenGL/OpenGLVertexArray.cpp
-  Engine3D/interfaces/RendererAPI.cpp
-  Engine3D/Renderer/RendererCommand.cpp
-  Engine3D/OpenGL/OpenGLRendererAPI.cpp
-  Engine3D/Renderer/OrthographicCamera.cpp
-  Engine3D/OpenGL/OpenGLShader.cpp
-  Engine3D/interfaces/Texture.cpp
-  Engine3D/OpenGL/OpenGLTexture.cpp
-  Engine3D/Renderer/OrthographicCameraController.cpp
-
-  Engine3D/OpenGL/OpenGLInputPoll.cpp
-  
-  Engine3D/OpenGL/OpenGLWindow.cpp
-  Engine3D/Renderer/Renderer2D.cpp
-  Engine3D/interfaces/SubTexture2D.cpp
-  Engine3D/interfaces/Framebuffer.cpp
-  Engine3D/OpenGL/OpenGLFramebuffer.cpp
-  Engine3D/Scene/Scene.cpp
-  Engine3D/Scene/Entity.cpp
-  Engine3D/Scene/SceneCamera.cpp
-  Engine3D/Scene/SceneSerializer.cpp
-  Engine3D/image/stb_image.cpp
-
-  Engine3D/platforms/Mac/MacPlatformUtils.cpp
-  Engine3D/Math/Math.cpp
-  Engine3D/Renderer/EditorCamera.cpp
-  Engine3D/interfaces/UniformBuffer.cpp
-  Engine3D/OpenGL/OpenGLUniformBuffer.cpp
+  ${INCLUDE_DIR}/OpenGL/OpenGLContext.cpp
 )
 
 set(
@@ -63,39 +32,20 @@ set(
   ../${INCLUDE_DIR}/Core/core.h
   ../${INCLUDE_DIR}/Core/EngineLogger.h
   ../${INCLUDE_DIR}/Core/EntryPoint.h
-#   ../${INCLUDE_DIR}/Core/GameEngine.h
+
   ../${INCLUDE_DIR}/Events/InputPoll.h
-  ../${INCLUDE_DIR}/Core/Window.h
-  ../${INCLUDE_DIR}/Core/Layer.h
+  ../${INCLUDE_DIR}/interfaces/Window.h
+  ../${INCLUDE_DIR}/interfaces/Layer.h
   ../${INCLUDE_DIR}/Core/LayerStack.h
-  ../${INCLUDE_DIR}/Core/Timer.h
-  ../${INCLUDE_DIR}/Core/Timestep.h
   ../${INCLUDE_DIR}/Entt/entt.h
-  ../${INCLUDE_DIR}/Imgui/ImGuiLayer.h
-
-  ../${INCLUDE_DIR}/OpenGL/OpenGLContext.h
-  ../${INCLUDE_DIR}/interfaces/Shader.h
-  ../${INCLUDE_DIR}/interfaces/Buffer.h
-  ../${INCLUDE_DIR}/OpenGL/OpenGLBuffer.h
-  ../${INCLUDE_DIR}/Renderer/Renderer.h
-  ../${INCLUDE_DIR}/interfaces/VertexArray.h
-  ../${INCLUDE_DIR}/OpenGL/OpenGLVertexArray.h
-  ../${INCLUDE_DIR}/interfaces/RendererAPI.h
-  ../${INCLUDE_DIR}/Renderer/RenderCommand.h
-  ../${INCLUDE_DIR}/OpenGL/OpenGLRendererAPI.h
-  ../${INCLUDE_DIR}/Renderer/OrthographicCamera.h
-  ../${INCLUDE_DIR}/OpenGL/OpenGLShader.h
-  ../${INCLUDE_DIR}/interfaces/Texture.h
-  ../${INCLUDE_DIR}/OpenGL/OpenGLTexture.h
-  ../${INCLUDE_DIR}/Renderer/OrthographicCameraController.h
-
-  ../${INCLUDE_DIR}/platforms/PlatformUtils.h
 
   ../${INCLUDE_DIR}/Events/ApplicationEvent.h
   ../${INCLUDE_DIR}/Events/Event.h
   ../${INCLUDE_DIR}/Events/KeyEvent.h
   ../${INCLUDE_DIR}/Events/MouseEvent.h
   ../${INCLUDE_DIR}/OpenGL/OpenGLInputPoll.h
+  ../${INCLUDE_DIR}/OpenGL/OpenGLContext.h
+
   ../${INCLUDE_DIR}/image/stb_image.h
 )
 
@@ -116,6 +66,9 @@ find_package(spdlog REQUIRED)
 find_package(glad REQUIRED)
 find_package(glm REQUIRED)
 
+find_package(box2d REQUIRED)
+find_package(yaml-cpp REQUIRED)
+
 add_library( ${PROJECT_NAME} ${all_src} ${all_headers} )
 
 # NOTE: Using {OPENGL_gl_LIBRARY}, if compiling on Apple.
@@ -126,12 +79,15 @@ if(UNIX AND NOT APPLE)
 		glfw
 		# ${OPENGL_gl_LIBRARY}
 		OpenGL::GL
-		Vulkan::Vulkan
+		# Vulkan::Vulkan
 		imgui::imgui
+		ImGuizmo::ImGuizmo
 		fmt::fmt
 		glm::glm
 		spdlog::spdlog
 		glad::glad
+		box2d::box2d
+		yaml-cpp::yaml-cpp
 	)
 endif(UNIX AND NOT APPLE)
 
@@ -199,7 +155,7 @@ install(
 
 install(
 	EXPORT ${PROJECT_NAME}Config
-	namespace Engine3DLinux::
+	NAMESPACE Engine3D-Linux::
 	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
 )
 

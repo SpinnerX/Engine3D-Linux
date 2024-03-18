@@ -1,14 +1,15 @@
 #include <Engine3DLinux/Core/Application.h>
+#include <Engine3DLinux/Core/core.h>
 #include <Engine3DLinux/Core/EngineLogger.h>
 #include <Engine3DLinux/Events/ApplicationEvent.h>
-#include <Engine3DLinux/Renderer/Renderer.h>
+// #include <Engine3DLinux/Renderer2D/Renderer.h>
 #include <GLFW/glfw3.h>
 
 namespace Engine3DLinux{
     Application* Application::_instance = nullptr;
     
     Application::Application(const std::string& name, ApplicationCommandLineArgs args) : _commandLineArgs(args){
-		RENDER_PROFILE_FUNCTION();
+		// RENDER_PROFILE_FUNCTION();
 
         render_core_assert(!_instance, "Application already exists!");
         isRunning = true;
@@ -19,7 +20,7 @@ namespace Engine3DLinux{
         _window->setEventCallback(bind_function(this, &Application::onEvent));
 
         // Initializing our renderer
-        Renderer::init();
+        // Renderer::init();
 
         _imguiLayer = new ImGuiLayer();
         pushOverlay(_imguiLayer);
@@ -27,25 +28,25 @@ namespace Engine3DLinux{
     }
 
     Application::~Application(){
-		RENDER_PROFILE_FUNCTION();
+		// RENDER_PROFILE_FUNCTION();
 		// Renderer::shutdown(); // Add this	
 	}
 
     void Application::pushLayer(Layer* layer){
-		RENDER_PROFILE_FUNCTION();
+		// RENDER_PROFILE_FUNCTION();
         _layerStack.pushLayer(layer);
         layer->onAttach();
     }
 
     void Application::pushOverlay(Layer* layer){
-		RENDER_PROFILE_FUNCTION();
+		// RENDER_PROFILE_FUNCTION();
         _layerStack.pushOverlay(layer);
         layer->onAttach();
     }
 
 
     void Application::onEvent(Event& event){
-		RENDER_PROFILE_FUNCTION();
+		// RENDER_PROFILE_FUNCTION();
         EventDispatcher dispatcher(event);
         // In order for dispatcher to tell which event to execute, this is where that happens
 
@@ -70,10 +71,10 @@ namespace Engine3DLinux{
 
 
     void Application::Run(){
-		RENDER_PROFILE_SCOPE("Runloop");
+		// RENDER_PROFILE_SCOPE("Runloop");
 
         while(isRunning){
-			RENDER_PROFILE_SCOPE("Run Mainloop");
+			// RENDER_PROFILE_SCOPE("Run Mainloop");
             // Is going to be showing how lonmg this frame current time and the last frame time
             float time = (float)glfwGetTime(); // Should be in platform::getTime() (containing impl for Mac, Windows, etc.)
             Timestep timestep = time - _lastFrameTime;
@@ -81,7 +82,7 @@ namespace Engine3DLinux{
 			
 			if(!isMinimized){
 				{
-				RENDER_PROFILE_SCOPE("LayerStack onUpdate in run");
+				/* // RENDER_PROFILE_SCOPE("LayerStack onUpdate in run"); */
 				for(Layer* layer : _layerStack){
 				    layer->onUpdate(timestep);
 				}
@@ -89,7 +90,7 @@ namespace Engine3DLinux{
 
 				_imguiLayer->begin();
 				{
-				RENDER_PROFILE_SCOPE("LayerStack onImguiRender in Application::run()");
+				/* // RENDER_PROFILE_SCOPE("LayerStack onImguiRender in Application::run()"); */
 				for(Layer* layer : _layerStack){
 				    layer->onImguiRender();
 				}
@@ -111,7 +112,7 @@ namespace Engine3DLinux{
     }
 
 	bool Application::onWindowResize(WindowResizeEvent& e){
-			RENDER_PROFILE_FUNCTION();
+			// RENDER_PROFILE_FUNCTION();
 		if(e.GetWidth() == 0 || e.GetHeight() == 0){
 			isMinimized = true;
 			coreLogInfo("True said here!");
@@ -120,7 +121,7 @@ namespace Engine3DLinux{
 
 		// Telling the renderer the frame buffer has been resized
 		isMinimized = false;
-		Renderer::onWindowResize(e.GetWidth(), e.GetHeight());
+		// Renderer::onWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 };

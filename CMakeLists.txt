@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(PROJECT_NAME Engine3D)
+set(PROJECT_NAME Engine3D-Linux)
 set(CMAKE_CXX_STANDARD 20)
 
 add_compile_options(-fsanitize=address)
@@ -22,8 +22,7 @@ option(BUILD_SHARED_LIBS "Build Box2D as a shared library" OFF)
 
 include(GNUInstallDirs)
 include_directories(
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/include/Engine3D
+	${PROJECT_SOURCE_DIR}/Engin3DLinux
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -38,8 +37,8 @@ add_subdirectory(src)
 # 	"$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_INSTALL_PREFIX}/include/GameEngine/GameEnginePrecompiledHeader.h>"
 # )
 
-set(PRECOMPILED_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/Engine3D/Engine3DPrecompiledHeader.h>")
-set(INSTALLED_PRECOMPILED_PATH "${CMAKE_INSTALL_PREFIX}/include/Engine3D/Engine3DPrecompiledHeader.h>")
+set(PRECOMPILED_PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>")
+set(INSTALLED_PRECOMPILED_PATH "${CMAKE_INSTALL_PREFIX}/include/Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>")
 
 if(EXISTS ${INSTALLED_PRECOMPILED_PATH})
 	set(PATH ${INSTALLED_PRECOMPILED_PATH})
@@ -57,7 +56,7 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC
 )
 
 install(
-	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Engine3D"
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Engine3DLinux"
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 

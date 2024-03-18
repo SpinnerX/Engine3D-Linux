@@ -5,8 +5,8 @@
 // Essentially to support Windows/Mac/Linux systems
 
 // if we are on the Windows OS (since windows uses dll files)
-#ifdef RENDER_PLATFORM_WINDOWS
-    #ifdef RENDER_BUILD_DLL
+#ifdef ENGINE_PLATFORM_WINDOWS
+    #ifdef ENGINE_BUILD_DLL
         #define ENGINE_API __declspec(dllexport)
     #else
         #define ENGINE_API __declspec(dllimport)
@@ -18,7 +18,7 @@
 
 // What this does is checks a specific condition
 // Then it logs the message if it fails then calls __debug break (kind of like setting a breakpoint)
-#ifdef RENDER_ENABLE_ASSERTS
+#ifdef ENGINE_ENABLE_ASSERTS
     template<typename... T>
     void render_assert(bool x, T&&... args){
         if(!(x)){
@@ -35,7 +35,7 @@
             __debugbreak();
         }
 #endif
-		if(__builtin_expect(!(x), 0){
+		if(__builtin_expect(!(x), 0)){
 			coreLogError("Assertion Failed: {}", std::forward(args)...);
 			__assert_rtn(__func__, __ASSERT_FILE_NAME, __LINE__, x)
 			return;
@@ -44,17 +44,17 @@
 #else
     // #define RENDER_ASSERT(x, ...)
     // #define RENDER_CORE_ASSERT(x, ...)
-    template<typename... T>
-    void render_assert(bool x, T&&... args){}
+    // template<typename... T>
+    // void render_assert(bool x, T&&... args){}
 
     template<typename... T>
     void render_core_assert(bool x, T&&... args){}
 #endif
 
-template<typename t1, typename t2>
-static bool is_same(){
-    return std::is_same<t1, t2>();
-}
+// template<typename t1, typename t2>
+// static bool is_same(){
+//     return std::is_same<t1, t2>();
+// }
 
 // Using a bitfield to go into multiple categories
 // Hence, why we are using a bitfield.
