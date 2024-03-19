@@ -5,14 +5,14 @@
 #include <Engine3DLinux/Events/KeyEvent.h>
 
 class ExampleLayer : public Engine3DLinux::Layer{
+	
 	virtual void onUpdate(Engine3DLinux::Timestep ts) override{
-		coreLogInfo("OnUpdate called!");
+
 	}
 
 	virtual void onEvent(Engine3DLinux::Event& e) override{
-		coreLogInfo("OnEvent called!");
+
 		if(Engine3DLinux::InputPoll::isKeyPressed(ENGINE_KEY_ESCAPE)){
-			coreLogInfo("Escaped Key Pressed!\n");
 			Engine3DLinux::Application::Get().close();
 		}
 		
@@ -20,10 +20,12 @@ class ExampleLayer : public Engine3DLinux::Layer{
 };
 
 
-
-class Application : public Engine3DLinux::Application{
+// @note Creating User application.
+// @note Application should also not be called Application
+// @note It conflicts with Engine3DLinux::Application
+class MyApplication : public Engine3DLinux::Application{
 public:
-	Application() : Engine3DLinux::Application() {
+	MyApplication() : Engine3DLinux::Application() {
 		pushLayer(new ExampleLayer());
 	}
 
@@ -33,5 +35,5 @@ public:
 
 
 Engine3DLinux::Application* Engine3DLinux::CreateApplication(Engine3DLinux::ApplicationCommandLineArgs args){
-	return new Application();
+	return new MyApplication();
 }
