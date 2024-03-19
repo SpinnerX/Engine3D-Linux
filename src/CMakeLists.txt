@@ -87,7 +87,7 @@ if(UNIX AND NOT APPLE)
 		spdlog::spdlog
 		glad::glad
 		box2d::box2d
-		yaml-cpp::yaml-cpp
+		yaml-cpp
 	)
 endif(UNIX AND NOT APPLE)
 
