@@ -4,7 +4,6 @@
 #include <Engine3DLinux/Events/InputPoll.h>
 #include <Engine3DLinux/Events/KeyEvent.h>
 
-
 class ExampleLayer : public Engine3DLinux::Layer{
 	
 	virtual void onUpdate(Engine3DLinux::Timestep ts) override{
