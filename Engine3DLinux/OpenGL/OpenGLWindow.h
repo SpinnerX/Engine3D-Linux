@@ -1,15 +1,15 @@
 #pragma once
-#include <Engine3DLinux/interfaces/Window.h>
+#include <Engine3DLinux/Core/Window.h>
 #include <Engine3DLinux/interfaces/GraphicsContext.h>
 
 struct GLFWwindow;
 
 namespace Engine3DLinux{
     // Windows OS specific Window
-    class OpenGLWindow : public Window{
+    class WindowsWindow : public Window{
     public:
-        OpenGLWindow(const WindowProps& props);
-        virtual ~OpenGLWindow();
+        WindowsWindow(const WindowProps& props);
+        virtual ~WindowsWindow();
 
         // Should just update GLFW
         // including swapping buffers, input events, and things like that

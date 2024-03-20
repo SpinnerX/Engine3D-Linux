@@ -2,6 +2,7 @@
 #include <memory>
 #include <Engine3DLinux/Core/core.h>
 #include <spdlog/spdlog.h>
+#include <fmt/core.h>
 #include <spdlog/fmt/ostr.h>
 #include <cstdarg>
 
@@ -13,15 +14,6 @@ namespace Engine3DLinux{
         ~EngineLogger();
 
         static void Init();
-
-        // template<typename T>
-        // static void trace(){}
-
-        // static void warn(){}
-
-        // static void error(){}
-
-        // static void fatal(){}
 
         // If either coreLogger or clientLogger is nullptr
         // Then we should automatically terminate the app.
@@ -59,58 +51,61 @@ namespace Engine3DLinux{
 
 // ------------ core logs ------------
 
+#define CORE_TRACE(...) Engine3DLinux::EngineLogger::GetCoreLogger()->trace(__VA_ARGS__);
+
 template<typename... T>
-inline void coreLogTrace2(spdlog::format_string_t<T...> fmt, T&&... args) {
+inline void coreLogTrace2(fmt::format_string<T...> fmt, T&&... args) {
     Engine3DLinux::EngineLogger::GetCoreLogger()->trace(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void coreLogTrace(spdlog::format_string_t<T...> fmt, T&&... args) {
+inline void coreLogTrace(fmt::format_string<T...> fmt, T&&... args) {
     Engine3DLinux::EngineLogger::GetCoreLogger()->trace(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void coreLogInfo(spdlog::format_string_t<T...> fmt, T&&... args) {
+inline void coreLogInfo(fmt::format_string<T...> fmt, T&&... args) {
     Engine3DLinux::EngineLogger::GetCoreLogger()->info(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void coreLogWarn(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void coreLogWarn(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetCoreLogger()->warn(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void coreLogError(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void coreLogError(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetCoreLogger()->error(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void coreLogFatal(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void coreLogFatal(fmt::format_string<T...> fmt, T &&...args) {
+    // Engine3DLinux::EngineLogger::GetCoreLogger()->fatal(fmt, std::forward<T>(args)...);
     Engine3DLinux::EngineLogger::GetCoreLogger()->critical(fmt, std::forward<T>(args)...);
 }
 
 // ------------ Client logs ------------
 template<typename... T>
-inline void clientLogTrace(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void clientLogTrace(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetClientLogger()->trace(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void clientLogInfo(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void clientLogInfo(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetClientLogger()->info(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void clientLogWarn(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void clientLogWarn(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetClientLogger()->warn(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void clientLogError(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void clientLogError(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetClientLogger()->error(fmt, std::forward<T>(args)...);
 }
 
 template<typename... T>
-inline void clientLogFatal(spdlog::format_string_t<T...> fmt, T &&...args) {
+inline void clientLogFatal(fmt::format_string<T...> fmt, T &&...args) {
     Engine3DLinux::EngineLogger::GetClientLogger()->critical(fmt, std::forward<T>(args)...);
 }

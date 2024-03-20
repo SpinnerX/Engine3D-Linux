@@ -24,6 +24,8 @@ find_package(glm REQUIRED)
 find_package(box2d REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
+# This will copy assets into build dir
+file(COPY assets2 DESTINATION ${CMAKE_BINARY_DIR})
 
 # Create the executable
 add_executable(${PROJECT_NAME} Application.cpp)

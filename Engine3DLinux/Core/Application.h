@@ -1,11 +1,10 @@
 #pragma once
 #include <memory>
 #include <Engine3DLinux/Core/core.h>
-#include <Engine3DLinux/interfaces/Window.h>
+#include <Engine3DLinux/Core/Window.h>
 #include <Engine3DLinux/Core/LayerStack.h>
-#include <Engine3DLinux/ImGui/ImGuiLayer.h>
+#include <Engine3DLinux/Imgui/ImGuiLayer.h>
 #include <Engine3DLinux/Core/Timestep.h>
-#include <cassert>
 
 namespace Engine3DLinux{
 	struct ApplicationCommandLineArgs{

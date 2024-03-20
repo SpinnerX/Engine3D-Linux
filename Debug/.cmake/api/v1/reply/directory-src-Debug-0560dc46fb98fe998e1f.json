@@ -44,7 +44,7 @@
 			[
 				"src/libEngine3D.a"
 			],
-			"targetId" : "Engine3D::@145eef247bfb46b6828c",
+			"targetId" : "Engine3DLinux::@145eef247bfb46b6828c",
 			"targetIndex" : 0,
 			"type" : "target"
 		},
@@ -56,7 +56,7 @@
 			"exportTargets" : 
 			[
 				{
-					"id" : "Engine3D::@145eef247bfb46b6828c",
+					"id" : "Engine3DLinux::@145eef247bfb46b6828c",
 					"index" : 0
 				}
 			],
