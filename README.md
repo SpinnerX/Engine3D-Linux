@@ -1,8 +1,21 @@
-## Engine3D
+# Engine3D-Linux
 
 ## Overview
-Engine3D is a Game Engine that is currently in development. That have capabilities for developing 3D games. Purpose of \
-this is to learn complexity of Game Engines and how much sub systems are within Game Engine architecture.
+
+This port of the Engine3D is for the platform Linux. Essentially a Game Engine that will be built from scratch utilizing OpenGL (eventually moving away and using Vulkan, instead).
+
+
+
+## UI Editor
+The UI Editor was made using ImGui, and Engine3D-Linux. That contains using thumbnails, and various other UI components. \
+`https://github.com/SpinnerX/Engine3D-Editor`
+
+## Projects
+* These are some projects for testing specific capabilities of Engine3D-Linux. That involves testing specific rendering techniques and doing a bit of stress testing with Engine3D. \
+
+Rocket-Game - `https://github.com/SpinnerX/Rocket-Game`
+
+Particle-System - `https://github.com/SpinnerX/ParticleSystem/`
 
 ### Features Added
 * Shader API (Using GLSL)
