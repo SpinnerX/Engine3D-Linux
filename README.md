@@ -8,7 +8,7 @@ This port of the Engine3D is for the platform Linux. Essentially a Game Engine t
 
 ## UI Editor
 The UI Editor was made using ImGui, and Engine3D-Linux. That contains using thumbnails, and various other UI components. \
-`https://github.com/SpinnerX/Engine3D-Editor`
+Link to the UI Editor, `https://github.com/SpinnerX/Engine3D-Editor`
 
 ## Projects
 * These are some projects for testing specific capabilities of Engine3D-Linux. That involves testing specific rendering techniques and doing a bit of stress testing with Engine3D. \
