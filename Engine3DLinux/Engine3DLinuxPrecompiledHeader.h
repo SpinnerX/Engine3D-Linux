@@ -25,6 +25,9 @@
 #include <Engine3DLinux/Core/EngineLogger.h>
 #include <Engine3DLinux/Renderer2D/OrthographicCameraController.h>
 #include <Engine3DLinux/Debug/Instrumentor.h>
+#include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 #include <fmt/ostream.h>
 #if RENDER_PLATFORM_WINDOWS

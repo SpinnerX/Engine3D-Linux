@@ -91,7 +91,7 @@ namespace Engine3DLinux{
 				{
 				RENDER_PROFILE_SCOPE("LayerStack onImguiRender in Application::run()");
 				for(Layer* layer : _layerStack){
-				    layer->onImguiRender();
+				    layer->onUIRender();
 				}
 				}
 				_imguiLayer->end();

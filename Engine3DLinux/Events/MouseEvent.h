@@ -15,7 +15,7 @@ namespace Engine3DLinux{
         std::string toString() const override {
             // return formatCpp::format("MouseMovedEvent: ({}, {})", _mouseX, _mouseY);
             std::stringstream ss;
-            ss << fmt::format("MouseMovedEvent: ({}, {})", _mouseX, _mouseY);
+            // ss << fmt::format("MouseMovedEvent: ({}, {})", _mouseX, _mouseY);
             return ss.str();
         }
 
@@ -48,7 +48,7 @@ namespace Engine3DLinux{
         std::string toString() const override {
             // return formatCpp::format("MouseScrolledEvent: ({}, {})", _xOffset, _yOffset);
             std::stringstream ss;
-            ss << fmt::format("MouseScrolledEvent: ({}, {})", _xOffset, _yOffset);
+            // ss << fmt::format("MouseScrolledEvent: ({}, {})", _xOffset, _yOffset);
             return ss.str();
         }
 
@@ -97,7 +97,7 @@ namespace Engine3DLinux{
         std::string toString() const override {
             // return formatCpp::format("MouseButtonPressedEvent: {}", _button);
             std::stringstream ss;
-            ss << fmt::format("MouseButtonPressedEvent: {}", static_cast<int32_t>(_button));
+            // ss << fmt::format("MouseButtonPressedEvent: {}", static_cast<int32_t>(_button));
             return ss.str();
         }
 
@@ -115,7 +115,7 @@ namespace Engine3DLinux{
 
         std::string toString() const override {
             std::stringstream ss;
-            ss << fmt::format("MouseButtonReleasedEvent: {}", static_cast<int32_t>(_button));
+            // ss << fmt::format("MouseButtonReleasedEvent: {}", static_cast<int32_t>(_button));
             return ss.str();
         }
 

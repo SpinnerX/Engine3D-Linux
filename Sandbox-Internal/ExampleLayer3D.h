@@ -66,7 +66,7 @@ namespace Engine3DLinux{
 			camController.onEvent(e);
 		}
 		
-		void onImguiRender() override {}
+		void onUIRender() override {}
 
 	private:
 		Ref<VertexBuffer3D> vertexBuffer;

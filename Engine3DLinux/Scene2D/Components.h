@@ -2,9 +2,9 @@
 #include <Engine3DLinux/Renderer2D/OrthographicCamera.h>
 #include <Engine3DLinux/Scene2D/SceneCamera.h>
 #include <Engine3DLinux/Scene2D/ScriptableEntity.h>
+#define GLM_ENABLE_EXPERIEMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 
-#define GLM_ENABLE_EXPERIEMENTAL
 #include <glm/gtx/quaternion.hpp>
 
 namespace Engine3DLinux{

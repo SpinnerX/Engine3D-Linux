@@ -27,7 +27,7 @@ namespace Engine3DLinux{
         // Updating the layer is updated when the application calls onUpdate
         virtual void onUpdate(Timestep ts){}
 
-        virtual void onImguiRender(){}
+        virtual void onUIRender(){}
 
         // Whichh is wherever events get sent to the layer, it'll know how to handle that event.
         virtual void onEvent(Event& event){}
