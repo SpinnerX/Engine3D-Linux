@@ -25,6 +25,3 @@
 [submodule "external/ImGuizmo"]
 	path = external/ImGuizmo
 	url = https://github.com/SpinnerX/ImGuizmo
-[submodule "Engine3D-Editor"]
-	path = external/ImGuizmo
-	url = https://github.com/SpinnerX/Engine3D-Editor
