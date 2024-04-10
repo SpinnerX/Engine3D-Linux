@@ -23,22 +23,19 @@ namespace Engine3DLinux{
 	}
 
 	float OpenGLInputPoll::getMouseXImpl(){
-		auto[x, y] = getMousePositionImpl();
-		return x;
+		return getMousePosition().x;
 	}
 
 	float OpenGLInputPoll::getMouseYImpl(){
-		auto[x, y] = getMousePositionImpl();
-		return y;
+		return getMousePosition().y;
 	}
 
-	MousePosition OpenGLInputPoll::getMousePositionImpl(){
+	glm::vec2 OpenGLInputPoll::getMousePositionImpl(){
 		auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().getNativeWindow());
 
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		MousePosition position = {(float)xpos, (float)ypos};
-		return position;
+		return {xpos, ypos};
 	}
 };
