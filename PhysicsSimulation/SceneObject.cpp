@@ -17,3 +17,8 @@ void SceneObject::onUpdate(Engine3DLinux::Timestep ts){
 }
 
 void SceneObject::onUIRender(){}
+
+bool SceneObject::inBounds(const glm::vec2& position){
+    
+    return false;
+}

@@ -23,13 +23,17 @@ namespace Utils{
 };
 
 WorldView::WorldView() : object({0, 0}, {1, 1}, {0.8f, 0.2f, 0.3f, 1.0f}), floorPlane({0, -34.0f}, {50.f, 50.f}, {1.f, 1.f, 1.f, 1.f}){
-    plane = Engine3DLinux::Shader::CreateShader("assets/shaders/flatShader.glsl");
+    // plane = Engine3DLinux::Shader::CreateShader("assets/shaders/flatShader.glsl");
     // triangle.l1.position = {0, 0 * 10.f};
     // triangle.l2.position = {1, 1 * 10.f};
 }
 
 void WorldView::onEvent(Engine3DLinux::Event& event){
+    
     if(Engine3DLinux::InputPoll::isKeyPressed(ENGINE_KEY_SPACE)){
+        coreLogInfo("Space Key Pressed!");
+        coreLogInfo("Set Position = ({}, {})", Engine3DLinux::InputPoll::getMouseX(), Engine3DLinux::InputPoll::getMouseY());
+        // object.setPosition(std::move(Engine3DLinux::InputPoll::getMousePosition()));
         object.setPosition({0.f, 0.f});
     }
 }

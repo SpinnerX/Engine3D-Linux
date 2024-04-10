@@ -15,7 +15,7 @@
 */
 
 struct Line{
-    Line(const glm::vec3& position, const glm::vec2& size) : position(position), size(size) {}
+    // Line(const glm::vec3& position, const glm::vec2& size) : position(position), size(size) {}
     glm::vec3 position;
     glm::vec2 size;
 };
@@ -31,7 +31,8 @@ struct TriangleShapedObject{
     // glm::vec3 bottom;
     // glm::vec3 p3;
     // glm::vec3 size; //! @note Size of the triangle
-    Line l1 = Line({0.f, 10.f, 0.f}, {5.f, 15.0f}); // bottom
+    // Line l1 = Line({0.f, 10.f, 0.f}, {5.f, 15.0f}); // bottom
+    Line l1;
     Line l2;
     Line l3;
 };
@@ -50,7 +51,7 @@ private:
     //! @note Plane is going to be our world plane (ground, essentially)
     //! @note So, when we load object into our world, it wont fall infinitely
     //! @note Providing our object with its initial origin when it lands.
-    Engine3DLinux::Ref<Engine3DLinux::Shader> plane;
+    // Engine3DLinux::Ref<Engine3DLinux::Shader> plane;
     // Engine3DLinux::Ref<Engine3DLinux::Shader> triangle;
     SceneObject object;
     SceneObject floorPlane;

@@ -35,6 +35,8 @@ public:
 
     const glm::vec4& getColor() const { return color; }
 
+    bool inBounds(const glm::vec2& position);
+
 private:
     glm::vec2 position;
     glm::vec2 size;
