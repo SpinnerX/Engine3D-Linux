@@ -15,7 +15,7 @@ namespace Engine3DLinux{
 	class ExampleLayer3D : public Layer{
 	public:
 		ExampleLayer3D() : Layer("Layer #1"), camController(1280.0f/720.0f){
-			checkboardTexture = Texture2D::Create("assets2/Checkerboard.png");
+			checkboardTexture = Texture2D::Create("assets/Checkerboard.png");
 			camController.setZoomLevel(5.0f); // @note Higher the offset, the wider we zoom outwards.
 			FrameBufferSpecifications frameBufferData{};
 			frameBufferData.width = 1280;
