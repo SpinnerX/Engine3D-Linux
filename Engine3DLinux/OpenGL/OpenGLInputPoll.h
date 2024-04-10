@@ -13,6 +13,6 @@ namespace Engine3DLinux {
 
 		float getMouseYImpl() override;
 
-		MousePosition getMousePositionImpl() override;
+		glm::vec2 getMousePositionImpl() override;
 	};
 }

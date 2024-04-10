@@ -4,10 +4,6 @@
 #include <Engine3DLinux/Events/MouseButtonCodes.h>
 
 namespace Engine3DLinux{
-	struct MousePosition{
-		float xpos = 0.0f;
-		float ypos = 0.0f;
-	};
 
 	class ENGINE_API InputPoll {
 	public:
@@ -19,7 +15,7 @@ namespace Engine3DLinux{
 			return _instance->isMouseButtonPressedImpl(button);
 		}
 
-		inline static MousePosition getMousePosition(){
+		inline static glm::vec2 getMousePosition(){
 			return _instance->getMousePositionImpl();
 		}
 		
@@ -34,7 +30,7 @@ namespace Engine3DLinux{
 	protected:
 		virtual bool isKeyPressedImpl(Key keycode) = 0;
 		virtual bool isMouseButtonPressedImpl(Mouse button) = 0;
-		virtual MousePosition getMousePositionImpl() = 0;
+		virtual glm::vec2 getMousePositionImpl() = 0;
 		
 		virtual float getMouseXImpl() = 0;
 		virtual float getMouseYImpl() = 0;
