@@ -2,8 +2,8 @@
 #include "Events/InputPoll.h"
 #include "Events/KeyCodes.h"
 #include "interfaces/Texture.h"
-#include <Engine3DLinux/Renderer2D/Renderer.h>
-#include <Engine3DLinux/Renderer2D/Renderer2D.h>
+#include <Engine3D/Renderer2D/Renderer.h>
+#include <Engine3D/Renderer2D/Renderer2D.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Utils{
@@ -26,6 +26,7 @@ WorldView::WorldView() : object({0, 0}, {1, 1}, {0.8f, 0.2f, 0.3f, 1.0f}), floor
     // plane = Engine3DLinux::Shader::CreateShader("assets/shaders/flatShader.glsl");
     // triangle.l1.position = {0, 0 * 10.f};
     // triangle.l2.position = {1, 1 * 10.f};
+    // object = Engine3DLinux::CreateRef<SceneObject>()
 }
 
 void WorldView::onEvent(Engine3DLinux::Event& event){
@@ -40,6 +41,13 @@ void WorldView::onEvent(Engine3DLinux::Event& event){
 
 void WorldView::onUpdate(Engine3DLinux::Timestep ts){
     object.onUpdate(ts);
+    
+    glm::vec2 previousPosition = object.getPosition();
+
+    if(world.inBoxBounds(object)){
+        object.setPosition(previousPosition);  
+    }
+
 }
 
 /**
@@ -52,7 +60,8 @@ void WorldView::onUpdate(Engine3DLinux::Timestep ts){
 void WorldView::submit(){
     // Engine3DLinux::Renderer2D::drawQuad({0.0f, 0.0f}, {5.f, 5.f}, {0.8, 0.2f, 0.3f, 1.0f}); // @note Rendering a red square
     // Engine3DLinux::Renderer2D::drawQuad({0.f, 0.f}, {1.f, 1.f}, plane);
-    Engine3DLinux::Renderer2D::drawQuad(object.getPosition(), object.getSize(), object.getColor());
+    // Engine3DLinux::Renderer2D::drawQuad(object.getPosition(), object.getSize(), object.getColor());
+    // Engine3DLinux::Renderer2D::drawQuad(object.getPosition(), object.getSize(), object.getTexture());
     Engine3DLinux::Renderer2D::drawQuad(floorPlane.getPosition(), floorPlane.getSize(), floorPlane.getColor());
     // int index = 0;
     // triangle.l1.position = glm::translate(glm::mat4(1.0f), {triangle.l1.position.x, triangle.l1.position.y, 0.0f}) 
@@ -66,5 +75,5 @@ void WorldView::submit(){
     // Engine3DLinux::Renderer2D::drawQuad(triangle.l1)
     // Renderer2D::drawQuad(triangle.l1.bottomPosition, triangle.l1.bottomScale, triangleTexture, 1.0, color);
     glm::vec4 color = {1.f, 1.f, 1.f, 1.f};
-    Engine3DLinux::Renderer2D::drawQuad(triangle.l1.position, triangle.l1.size, color);
+    Engine3DLinux::Renderer2D::drawQuad(triangle.l1.position, triangle.l1.size, floorPlane.getColor());
 }

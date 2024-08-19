@@ -1,6 +1,6 @@
 #pragma once
 #include <filesystem>
-#include <Engine3DLinux/interfaces/Texture.h>
+#include <Engine3D/interfaces/Texture.h>
 
 namespace Engine3DLinux{
 	/*

@@ -1,8 +1,8 @@
 #pragma once
-#include <Engine3DLinux/Core/core.h>
-#include <Engine3DLinux/interfaces/Shader.h>
-#include <Engine3DLinux/Events/Event.h>
-#include <Engine3DLinux/Core/Timestep.h>
+#include <Engine3D/Core/core.h>
+#include <Engine3D/interfaces/Shader.h>
+#include <Engine3D/Events/Event.h>
+#include <Engine3D/Core/Timestep.h>
 #include "SceneObject.h"
 
 /**
@@ -57,4 +57,5 @@ private:
     SceneObject floorPlane;
     TriangleShapedObject triangle;
     glm::vec3 planeHsv = {0.0f, 0.8f, 0.8f};
+    b2World* physicsWorld;
 };

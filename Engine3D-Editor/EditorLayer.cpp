@@ -1,18 +1,18 @@
 #define GLM_ENABLE_EXPERIEMENTAL
-#include <Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>
+#include <Engine3D/Engine3DLinuxPrecompiledHeader.h>
 #include "EditorLayer.h"
-// #include <Engine3DLinux/OpenGL/OpenGLShader.h>
-// #include <Engine3DLinux/Entt/entt.h>
-#include <Engine3DLinux/Scene2D/SceneSerializer.h>
-// #include <Engine3DLinux/platforms/PlatformUtils.h>
-#include <Engine3DLinux/Math/Math.h>
+// #include <Engine3D/OpenGL/OpenGLShader.h>
+// #include <Engine3D/Entt/entt.h>
+#include <Engine3D/Scene2D/SceneSerializer.h>
+// #include <Engine3D/platforms/PlatformUtils.h>
+#include <Engine3D/Math/Math.h>
 #include <box2d/b2_body.h>
 #include <glm/gtc/type_ptr.hpp>
-#include <Engine3DLinux/Core/Application.h>
+#include <Engine3D/Core/Application.h>
 #include <imgui/imgui.h>
 #include <ImGuizmo/ImGuizmo.h>
-#include <Engine3DLinux/Scene2D/Components.h>
-#include <Engine3DLinux/Renderer2D/RenderCommand.h>
+#include <Engine3D/Scene2D/Components.h>
+#include <Engine3D/Renderer2D/RenderCommand.h>
 
 namespace Engine3DLinux{
 	EditorLayer::EditorLayer() : Layer("Sandbox2D"){

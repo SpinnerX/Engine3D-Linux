@@ -67,7 +67,7 @@ add_subdirectory(external/glm)
 add_subdirectory(external/yaml-cpp)
 # add_subdirectory(external/box2d)
 # find_package(box2d REQUIRED)
-
+# add_subdirectory(external/box2d)
 add_subdirectory(external/Box2D-cmake)
 
 # include_directories(external/fmt/include)
@@ -95,6 +95,7 @@ add_subdirectory(src)
 
 if (ENGINE_BUILD_SANDBOX)
 	add_subdirectory(Sandbox-Internal)
+    # add_subdirectory(2_PhysicsSimulationRemastered)
     # add_subdirectory(Editor)
     add_subdirectory(Engine3D-Editor)
 
@@ -121,7 +122,7 @@ target_link_libraries(${PROJECT_NAME}
     imgui
     ImGuizmo
 	glad
-	# box2d::box2d
+	box2d
 )
 endif(WIN32)
 

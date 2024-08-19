@@ -1,12 +1,12 @@
 #include "SimulationLayer.h"
-#include <Engine3DLinux/Core/Application.h>
-#include <Engine3DLinux/Events/InputPoll.h>
+#include <Engine3D/Core/Application.h>
+#include <Engine3D/Events/InputPoll.h>
 #include "Events/KeyCodes.h"
 #include "interfaces/Texture.h"
-#include <Engine3DLinux/Renderer2D/Renderer.h>
-#include <Engine3DLinux/Renderer2D/Renderer2D.h>
-#include <Engine3DLinux/interfaces/Framebuffer.h>
-#include <Engine3DLinux/interfaces/Texture.h>
+#include <Engine3D/Renderer2D/Renderer.h>
+#include <Engine3D/Renderer2D/Renderer2D.h>
+#include <Engine3D/interfaces/Framebuffer.h>
+#include <Engine3D/interfaces/Texture.h>
 
 namespace Engine3DLinux{
     SimulationLayer::SimulationLayer() : Layer("Layer #1"), currentActiveSceneCamera(1280.0f/720.0f){
@@ -28,9 +28,12 @@ namespace Engine3DLinux{
         Renderer2D::setClearColor();
 
         Renderer2D::beginScene(currentActiveSceneCamera.getCamera());
-        world.submit(); //! @note Submitting all of our rendering commands from our world
-        Renderer2D::endScene();
+        // world.submit(); //! @note Submitting all of our rendering commands from our world
+        submit([&world](){
+            world.submit();
+        });
 
+        Renderer2D::endScene();
     }
 
     void SimulationLayer::onEvent(Event& e) {
@@ -43,4 +46,12 @@ namespace Engine3DLinux{
     }
     
     void SimulationLayer::onUIRender() {}
+
+
+    void SimulationLayer::onPlay(){
+    }
+
+    void SimulationLayer::onStop(){
+
+    }
 };

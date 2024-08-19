@@ -1,8 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <Engine3DLinux/Core/Timestep.h>
-#include <Engine3DLinux/interfaces/Texture.h>
-#include <Engine3DLinux/interfaces/Shader.h>
+#include <Engine3D/Core/Timestep.h>
+#include <Engine3D/interfaces/Texture.h>
+#include <Engine3D/interfaces/Shader.h>
 
 /**
  * 
@@ -35,9 +35,19 @@ public:
 
     const glm::vec4& getColor() const { return color; }
 
-    bool inBounds(const glm::vec2& position);
+    Engine3DLinux::Ref<Engine3DLinux::Texture2D> getTexture() const { return texture; }
+
+    //! @note This gives us the original location the object was positioned at it's initial state.
+    glm::vec2& getOrigin() const { return originalPosition; }
+
+
+    //! @note For checking if this scene object overlaps/intersect with another object
+    bool inBoxBounds(SceneObject&);
+
+    bool inCircleBounds(SceneObject&);
 
 private:
+    glm::vec2 originalPosition;
     glm::vec2 position;
     glm::vec2 size;
     glm::vec4 color;

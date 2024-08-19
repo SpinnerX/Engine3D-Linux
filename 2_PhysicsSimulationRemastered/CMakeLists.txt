@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.15)
 
-set(PROJECT_NAME PhysicsSimulation)
+set(PROJECT_NAME 2_PhysicsSimulation)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "") # works (in creating the compile_commands.json file)
@@ -18,12 +18,12 @@ endif(NOT WIN32)
 add_executable(
 	${PROJECT_NAME}
 	Application.cpp
-    SceneObject.h
+    # SceneObject.h
     SimulationLayer.h
-    SceneObject.cpp
+    # SceneObject.cpp
     SimulationLayer.cpp
-    WorldView.h
-    WorldView.cpp
+    # WorldView.h
+    # WorldView.cpp
 )
 
 if(APPLE)
@@ -44,19 +44,6 @@ target_link_libraries(
 endif(APPLE)
 
 if(WIN32)
-# target_link_libraries(
-#     ${PROJECT_NAME} PUBLIC
-#     Engine3D-Linux
-#     glfw
-#     # ${Vulkan_LIBRARIES}
-#     fmt
-#     spdlog
-#     glm
-#     tobanteGaming::Box2D
-#     yaml-cpp
-#     imgui
-#     ImGuizmo
-# )
 target_link_libraries(
     ${PROJECT_NAME} PUBLIC
     Engine3D-Linux

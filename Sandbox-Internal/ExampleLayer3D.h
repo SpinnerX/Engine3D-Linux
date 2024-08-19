@@ -1,15 +1,15 @@
 #pragma once
-#include <Engine3DLinux/Core/Application.h>
-#include <Engine3DLinux/Core/Layer.h>
-#include <Engine3DLinux/OpenGL/OpenGLInputPoll.h>
-#include <Engine3DLinux/OpenGL/OpenGLBuffer3D.h>
-#include <Engine3DLinux/OpenGL/OpenGLTexture.h>
-#include <Engine3DLinux/Renderer2D/OrthographicCameraController.h>
-#include <Engine3DLinux/OpenGL/OpenGLBuffer.h>
-#include <Engine3DLinux/OpenGL/OpenGLVertexArray.h>
-#include <Engine3DLinux/OpenGL/OpenGLShader.h>
-#include <Engine3DLinux/interfaces/Framebuffer.h>
-#include <Engine3DLinux/Renderer2D/Renderer2D.h>
+#include <Engine3D/Core/Application.h>
+#include <Engine3D/Core/Layer.h>
+#include <Engine3D/OpenGL/OpenGLInputPoll.h>
+// #include <Engine3D/OpenGL/OpenGLBuffer3D.h>
+#include <Engine3D/OpenGL/OpenGLTexture.h>
+#include <Engine3D/Renderer2D/OrthographicCameraController.h>
+#include <Engine3D/OpenGL/OpenGLBuffer.h>
+#include <Engine3D/OpenGL/OpenGLVertexArray.h>
+#include <Engine3D/OpenGL/OpenGLShader.h>
+#include <Engine3D/Graphics/Framebuffer.h>
+#include <Engine3D/Renderer2D/Renderer2D.h>
 
 namespace Engine3DLinux{
 	class ExampleLayer3D : public Layer{
@@ -23,8 +23,6 @@ namespace Engine3DLinux{
 		}
 
 		void onAttach() override {
-			float data[10] = {};
-			vertexBuffer = VertexBuffer3D::Create<sizeof(data)>(data);
 		}
 
 		void onDetach() override {}

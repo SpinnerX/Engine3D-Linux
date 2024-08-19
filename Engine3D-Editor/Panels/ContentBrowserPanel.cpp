@@ -1,9 +1,9 @@
-#include <Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>
+#include <Engine3D/Engine3DLinuxPrecompiledHeader.h>
 #include "ContentBrowserPanel.h"
 #include <imgui/imgui.h>
 #include <filesystem>
-#include <Engine3DLinux/Events/MouseEvent.h>
-#include <Engine3DLinux/Events/InputPoll.h>
+#include <Engine3D/Events/MouseEvent.h>
+#include <Engine3D/Events/InputPoll.h>
 
 namespace Engine3DLinux{
 	static const std::filesystem::path _assetPath = "assets";

@@ -1,5 +1,5 @@
-#include <Engine3DLinux/Core/Application.h>
-#include <Engine3DLinux/Core/EntryPoint.h>
+#include <Engine3D/Core/Application.h>
+#include <Engine3D/Core/EntryPoint.h>
 #include "EditorLayer.h"
 
 namespace Engine3DLinux{

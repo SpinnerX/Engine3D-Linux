@@ -1,11 +1,11 @@
-#include <Engine3DLinux/Engine3DLinuxPrecompiledHeader.h>
+#include <Engine3D/Engine3DLinuxPrecompiledHeader.h>
 #include "SceneHeirarchyPanel.h"
-#include <Engine3DLinux/Scene2D/Entity.h>
-#include <Engine3DLinux/Scene2D/Scene.h>
-#include <Engine3DLinux/Scene2D/Components.h>
+#include <Engine3D/Scene2D/Entity.h>
+#include <Engine3D/Scene2D/Scene.h>
+#include <Engine3D/Scene2D/Components.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui_internal.h>
-#include <Engine3DLinux/interfaces/Texture.h>
+#include <Engine3D/interfaces/Texture.h>
 #include <filesystem>
 
 namespace Engine3DLinux{

@@ -4,10 +4,12 @@
 #include <Engine3D/Core/Timestep.h>
 #include <Engine3D/Core/Layer.h>
 #include <Engine3D/Scene2D/Scene.h>
+#include <Engine3D/Renderer2D/EditorCamera.h>
 #include <Engine3D/Renderer2D/OrthographicCameraController.h>
+#include <Engine3D/interfaces/Framebuffer.h>
 #include <box2d/box2d.h>
-#include "WorldView.h"
 #include <functional>
+#include <iostream>
 
 namespace Engine3DLinux{
 	class SimulationLayer : public Layer{
@@ -26,7 +28,7 @@ namespace Engine3DLinux{
 
 	private:
 		template<typename T>
-		bool submit(std::function<void(T&& object)){
+		bool submit(const T&& object){
 			*(T *)object();
 		}
 
@@ -38,15 +40,11 @@ namespace Engine3DLinux{
 		void onStop();
 
 	private:
-		Engine3DLinux::OrthographicCameraController currentActiveSceneCamera;
-		//! @note  Our actual object
-
+		// OrthographicCameraController camera;
         enum class GameState{
             MainMenu = 0, Play = 1, EndSimulation = 2
         };
 
-        GameState state;
-        Timestep time;
-        WorldView world;
+		Ref<FrameBuffer> framebuffer;
 	};
 };

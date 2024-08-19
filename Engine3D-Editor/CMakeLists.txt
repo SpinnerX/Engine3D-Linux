@@ -57,6 +57,8 @@ target_link_libraries(
     yaml-cpp
     imgui
     ImGuizmo
+    glad
+    box2d
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR})
